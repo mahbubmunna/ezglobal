@@ -53,10 +53,9 @@ async def register_start(
     # Generate OTP
     otp = await otp_service.create_otp(session, data.email, purpose="registration")
     
-    # Send OTP (MOCK)
-    print(f"========================================")
-    print(f"OTP for {data.email}: {otp.code}")
-    print(f"========================================")
+    # Send OTP
+    from app.modules.email.service import email_service
+    await email_service.send_otp_email(data.email, otp.code)
     
     return {"message": "OTP sent to email"}
 

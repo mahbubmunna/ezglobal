@@ -15,5 +15,7 @@ pytest
 pytest-asyncio
 httpx
 aiosqlite
+item
 greenlet
+fastapi-mail
 
