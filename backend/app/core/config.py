@@ -1,6 +1,6 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from pydantic import PostgresDsn, computed_field
-from typing import List
+from pydantic import PostgresDsn, computed_field, AnyHttpUrl, field_validator
+from typing import List, Union, Any
 
 class Settings(BaseSettings):
     PROJECT_NAME: str = "Auth Phase 0"
@@ -11,7 +11,16 @@ class Settings(BaseSettings):
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
     
     # CORS
-    BACKEND_CORS_ORIGINS: List[str] = ["https://ezglobal.vercel.app"]
+    BACKEND_CORS_ORIGINS: Union[List[str], str] = ["https://ezglobal.vercel.app"]
+
+    @field_validator("BACKEND_CORS_ORIGINS", mode="before")
+    @classmethod
+    def assemble_cors_origins(cls, v: Any) -> Any:
+        if isinstance(v, str) and not v.startswith("["):
+            return [i.strip() for i in v.split(",")]
+        elif isinstance(v, (list, str)):
+            return v
+        raise ValueError(v)
 
     # Database
     POSTGRES_USER: str = "postgres"
