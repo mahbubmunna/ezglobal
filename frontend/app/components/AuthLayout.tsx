@@ -36,9 +36,7 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
                 </div>
 
                 <div className="flex items-center gap-4">
-                    <button className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-all backdrop-blur-sm">
-                        <Moon size={20} />
-                    </button>
+
                     <Link
                         href="/register/step-1"
                         className="hidden sm:inline-flex items-center justify-center px-5 py-2.5 text-sm font-semibold text-white bg-orange-500 hover:bg-orange-600 rounded-full transition-all shadow-lg shadow-orange-500/20"
