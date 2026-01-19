@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
     
     # CORS
-    BACKEND_CORS_ORIGINS: List[str] = ["http://localhost:3000"]
+    BACKEND_CORS_ORIGINS: List[str] = ["https://ezglobal.vercel.app"]
 
     # Database
     POSTGRES_USER: str = "postgres"
