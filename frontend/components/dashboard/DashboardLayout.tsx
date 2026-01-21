@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutGrid, Home, Settings, LogOut, Search, FileText, BarChart2, Sparkles } from 'lucide-react';
+import { LayoutGrid, Home, Settings, LogOut, Search, FileText, BarChart2, Sparkles, Voicemail, Speaker, SpeakerIcon, Mic } from 'lucide-react';
 import { useAuthStore } from '@/store/authStore';
 
 interface DashboardLayoutProps {
@@ -34,7 +34,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                         </div>
                         {/* Logo Text (Appears on Hover) */}
                         <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
-                            <span className="text-xl font-bold text-white tracking-tight">EZ Global</span>
+                            <span className="text-xl font-bold text-white tracking-tight">EZ GLOBAL</span>
                         </div>
                     </div>
                 </div>
@@ -117,10 +117,10 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
             <div className="fixed bottom-8 right-8 z-50">
                 <button className="h-14 px-6 bg-[#0F172A] rounded-full shadow-2xl shadow-indigo-500/20 border border-gray-800 flex items-center justify-center text-white hover:scale-105 transition-all duration-300 gap-3 group">
                     <div className="relative">
-                        <Sparkles size={20} className="text-indigo-400 group-hover:text-indigo-300 transition-colors" />
+                        <Mic size={20} className="text-indigo-400 group-hover:text-indigo-300 transition-colors" />
                         <div className="absolute inset-0 bg-indigo-400/20 blur-lg rounded-full"></div>
                     </div>
-                    <span className="font-bold text-sm tracking-wide">Ask Nora</span>
+                    <span className="font-bold text-sm tracking-wide">Talk to Nora</span>
                 </button>
             </div>
         </div>
