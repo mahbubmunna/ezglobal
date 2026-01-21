@@ -103,25 +103,28 @@ export default function BusinessSetupService() {
                 </div>
 
                 {/* Top Controls */}
-                <div className="flex items-center gap-4">
-                    <div className="text-xs font-bold text-[#4F46E5] bg-indigo-50 px-3 py-1.5 rounded-md">
-                        {currentStep} / 12
+                <div className="flex items-center gap-4 bg-white p-2 rounded-2xl shadow-sm border border-gray-100">
+                    <div className="px-4 border-r border-gray-200">
+                        <span className="text-sm font-bold text-[#494FBB]">{currentStep}</span>
+                        <span className="text-sm font-medium text-gray-400"> / 12</span>
                     </div>
-                    <div className="h-8 w-[1px] bg-gray-200 mx-2"></div>
-                    <button
-                        onClick={prevStep}
-                        disabled={currentStep === 1}
-                        className="text-gray-400 hover:text-[#0F172A] disabled:opacity-30 disabled:hover:text-gray-400 transition-colors"
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6" /></svg>
-                    </button>
-                    <button
-                        onClick={nextStep}
-                        className="h-10 px-6 rounded-lg bg-[#4F46E5] text-white font-bold text-sm shadow-lg shadow-indigo-200 hover:bg-[#4338ca] transition-all flex items-center gap-2"
-                    >
-                        Next Step
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
-                    </button>
+                    <div className="flex gap-2">
+                        <button
+                            onClick={prevStep}
+                            disabled={currentStep === 1}
+                            className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-400 disabled:opacity-50 disabled:hover:bg-transparent"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6" /></svg>
+                        </button>
+                        <button
+                            onClick={nextStep}
+                            disabled={currentStep === 12}
+                            className="bg-[#494FBB] hover:opacity-90 text-white px-6 py-2 rounded-xl font-bold flex items-center gap-2 transition-all shadow-lg shadow-[#494FBB]/20 disabled:opacity-50 disabled:shadow-none"
+                        >
+                            <span>Next Step</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
+                        </button>
+                    </div>
                 </div>
             </div>
 

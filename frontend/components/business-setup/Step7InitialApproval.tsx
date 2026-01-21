@@ -52,8 +52,8 @@ export default function Step7InitialApproval() {
             </div>
 
             {/* Right Card: UI for Initial Approval Status */}
-            <div className="flex-1 flex flex-col pt-4 w-full">
-                <div className="bg-white rounded-[32px] border border-gray-100 flex flex-col shadow-sm overflow-hidden min-h-[640px]">
+            <div className="flex-1 flex flex-col pt-4 mb-16 w-full">
+                <div className="bg-white rounded-[32px] border border-gray-100 flex flex-col shadow-sm overflow-hidden min-h-[500px]">
 
                     {/* Browser Address Bar Mock */}
                     <div className="bg-gray-50/50 border-b border-gray-100 p-4 flex items-center gap-4">
@@ -108,28 +108,6 @@ export default function Step7InitialApproval() {
                                 <p className="text-xs text-gray-500 max-w-[280px] leading-relaxed">
                                     Thank you for confirming the details. Your request is under review and you should be updated within 72 hours.
                                 </p>
-                            </div>
-
-                            {/* Float Icon */}
-                            <div className="absolute bottom-24 right-8">
-                                <button className="w-10 h-10 rounded-full bg-yellow-400 text-white flex items-center justify-center shadow-lg hover:scale-105 transition-transform">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>
-                                </button>
-                            </div>
-
-                            {/* Footer Actions */}
-                            <div className="flex items-center justify-between border-t border-gray-100 pt-6 mt-auto">
-                                <button className="px-5 py-2 rounded-lg border border-gray-200 text-xs font-bold text-gray-500 hover:bg-gray-50 transition-colors">
-                                    Back
-                                </button>
-                                <div className="flex gap-3">
-                                    <button className="px-5 py-2 rounded-lg border border-gray-200 text-xs font-bold text-gray-500 hover:bg-gray-50 transition-colors">
-                                        Save and exit
-                                    </button>
-                                    <Link href="/dashboard" className="px-5 py-2 rounded-lg bg-[#0F172A] text-white text-xs font-bold hover:bg-black transition-colors shadow-lg shadow-gray-200">
-                                        Go to Dashboard
-                                    </Link>
-                                </div>
                             </div>
                         </div>
                     </div>

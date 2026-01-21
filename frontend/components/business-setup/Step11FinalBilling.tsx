@@ -18,11 +18,14 @@ export default function Step11FinalBilling() {
                     </button>
                 </div>
             </div>
-            <div className="flex-1 bg-white rounded-[32px] border border-gray-100 h-[600px] flex items-center justify-center p-8">
-                <div className="text-center">
-                    <h3 className="text-xl font-bold text-[#0F172A]">Payment Gateway</h3>
-                    <p className="text-gray-400 mt-2">Integration coming soon.</p>
+            <div className='flex-1'>
+                <div className="flex-1 bg-white rounded-[32px] border border-gray-100 h-[400px] flex items-center justify-center p-8">
+                    <div className="text-center">
+                        <h3 className="text-xl font-bold text-[#0F172A]">Payment Gateway</h3>
+                        <p className="text-gray-400 mt-2">Integration coming soon.</p>
+                    </div>
                 </div>
+                <div className='mt-8'>   </div>
             </div>
         </div>
     );

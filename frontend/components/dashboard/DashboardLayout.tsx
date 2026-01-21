@@ -87,22 +87,19 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                 <header className="h-20 flex items-center justify-between px-8 flex-none bg-white border-b border-gray-100/50">
 
                     {/* Left: Search Bar */}
-                    <div className="flex-1 max-w-2xl">
-                        <div className="relative group">
-                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-                            <input
-                                type="text"
-                                placeholder="Search for processes, documents..."
-                                className="w-full pl-11 pr-4 py-2.5 rounded-lg bg-gray-50 border border-transparent focus:bg-white focus:border-indigo-100 text-sm text-gray-700 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-indigo-50/50 transition-all"
-                            />
-                        </div>
+                    <div className="relative w-96">
+                        <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                        <input
+                            type="text"
+                            placeholder="Search for processes, documents..."
+                            className="w-full pl-11 pr-4 py-2.5 rounded-full bg-gray-100 border-none focus:bg-white focus:ring-2 focus:ring-[#494FBB] text-sm text-gray-700 placeholder-gray-400 focus:outline-none transition-all"
+                        />
                     </div>
 
                     {/* Right: Profile */}
                     <div className="flex items-center gap-4">
                         <div className="flex flex-col text-right">
                             <span className="text-sm font-bold text-[#0F172A]">{user?.first_name} {user?.last_name || 'Hassan'}</span>
-                            <span className="text-[10px] text-gray-400 font-bold tracking-widest uppercase">Admin</span>
                         </div>
                         <div className="w-10 h-10 rounded-full p-0.5 bg-gray-100 border border-gray-200">
                             <img src={`https://ui-avatars.com/api/?name=${user?.first_name}+${user?.last_name}&background=random`} alt="Profile" className="w-full h-full rounded-full object-cover" />
