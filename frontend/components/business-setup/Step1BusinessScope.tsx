@@ -5,7 +5,7 @@ import { ArrowRight, ArrowLeft, Check, CornerDownRight } from 'lucide-react';
 export default function Step1BusinessScope() {
 
     return (
-        <div className="flex flex-col lg:flex-row gap-16 h-full items-stretch pt-4">
+        <div className="flex flex-col lg:flex-row gap-16 items-stretch pt-4">
             {/* Left Card: Content */}
             <div className="flex-1 flex flex-col items-start pt-4">
 
