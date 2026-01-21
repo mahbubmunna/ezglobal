@@ -1,0 +1,161 @@
+'use client';
+
+import { useState } from 'react';
+import { ArrowRight, Check, Search } from 'lucide-react';
+import { useBusinessSetupStore } from '@/store/businessSetupStore';
+
+export default function Step3LegalStructure() {
+    const { setStep, currentStep } = useBusinessSetupStore();
+    const prevStep = () => setStep(currentStep - 1);
+    const [selectedType, setSelectedType] = useState('LLC');
+
+    const LEGAL_TYPES = [
+        {
+            id: 'Partnership',
+            label: 'Partnership Company',
+            partners: '2 to 50',
+            roles: 'Manager/Partner',
+            description: null
+        },
+        {
+            id: 'LLC',
+            label: 'Limited Liability Company (LLC)',
+            partners: '2 to 50',
+            roles: 'Manager/Partner',
+            description: 'Applicable for UAE, GCC, corporate body and foreigners'
+        },
+        {
+            id: 'SimplePartnership',
+            label: 'Simple partnership company',
+            partners: '2 to 50',
+            roles: 'Manager/Partner',
+            description: null
+        },
+        {
+            id: 'Civil',
+            label: 'Civil Company',
+            partners: '2 to 50',
+            roles: 'Manager / LSA',
+            description: null
+        }
+    ];
+
+    return (
+        <div className="flex flex-col lg:flex-row gap-16 items-start pt-4">
+            {/* Left Card: Content */}
+            <div className="flex-1 flex flex-col items-start pt-4">
+
+                {/* Title */}
+                <h2 className="text-5xl font-bold text-[#0F172A] mb-2 leading-[1.1] tracking-tight">
+                    Determine <br />
+                    Legal Structure
+                </h2>
+
+                {/* Thick Divider */}
+                <div className="w-16 h-1.5 bg-[#0F172A] rounded-full my-8"></div>
+
+                {/* Description */}
+                <div className="prose prose-lg text-gray-500 mb-12 max-w-xl font-light">
+                    <p className="text-lg">
+                        Compare and select the legal type that is most suitable for you. If you notice a legal type is not available to you, it means that you are not applicable to select them based on your previous selections.
+                    </p>
+                    <p className="text-lg mt-6 mb-10">
+                        Some business activities require specific legal structures, ensuring compliance with local regulations.
+                    </p>
+                    <div className="mt-auto pt-6 border-t border-gray-200 w-full">
+                        <button onClick={prevStep} className="flex items-center gap-2 text-gray-400 hover:text-[#0F172A] font-bold text-sm transition-colors px-2 py-2 rounded-lg hover:bg-gray-50 -ml-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5" /><path d="m12 19-7-7 7-7" /></svg>
+                            Previous Step
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            {/* Right Card: Browser UI for Selection */}
+            <div className="flex-1 flex flex-col pt-4 w-full">
+                <div className="bg-white rounded-[32px] border border-gray-100 flex flex-col shadow-sm overflow-hidden min-h-[640px]">
+
+                    {/* Browser Address Bar Mock */}
+                    <div className="bg-gray-50/50 border-b border-gray-100 p-4 flex items-center gap-4">
+                        <div className="flex gap-1.5">
+                            <div className="w-2.5 h-2.5 rounded-full bg-red-300"></div>
+                            <div className="w-2.5 h-2.5 rounded-full bg-yellow-300"></div>
+                            <div className="w-2.5 h-2.5 rounded-full bg-green-300"></div>
+                        </div>
+                        <div className="flex-1 bg-white border border-gray-200 rounded-lg px-4 py-1.5 text-[10px] text-gray-400 font-mono flex items-center justify-center gap-2">
+                            ezglobal.com/setup/legal-type
+                        </div>
+                    </div>
+
+                    {/* Content Area */}
+                    <div className="p-8">
+                        {/* Header - Aligned with Columns */}
+                        <div className="flex items-center justify-between mb-8 px-5">
+                            <h3 className="text-lg font-bold text-[#0F172A]">Select Legal Type</h3>
+                            <div className="flex items-center gap-8 text-[10px] font-bold text-gray-400 uppercase tracking-widest flex-none">
+                                <span className="w-16 text-right">Partners</span>
+                                <span className="w-28 text-right">Roles</span>
+                            </div>
+                        </div>
+
+                        {/* List */}
+                        <div className="space-y-4">
+                            {LEGAL_TYPES.map((type) => {
+                                const isSelected = selectedType === type.id;
+                                return (
+                                    <div
+                                        key={type.id}
+                                        onClick={() => setSelectedType(type.id)}
+                                        className={`group relative rounded-2xl border transition-all cursor-pointer overflow-hidden
+                                            ${isSelected
+                                                ? 'bg-indigo-50/30 border-[#4F46E5] shadow-lg shadow-indigo-100/50'
+                                                : 'bg-white border-gray-100 hover:border-gray-200 hover:bg-gray-50/50'
+                                            }
+                                        `}
+                                    >
+                                        <div className="p-5 flex items-center justify-between relative z-10">
+                                            {/* Left Side: Radio + Label (Flex-1 to take space) */}
+                                            <div className="flex items-center gap-4 flex-1 min-w-0 pr-4">
+                                                {/* Radio Circle */}
+                                                <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors flex-none
+                                                     ${isSelected ? 'border-[#4F46E5]' : 'border-gray-200 group-hover:border-gray-300'}
+                                                 `}>
+                                                    {isSelected && <div className="w-2.5 h-2.5 rounded-full bg-[#4F46E5]"></div>}
+                                                </div>
+
+                                                {/* Label with Truncate */}
+                                                <span className={`font-bold text-sm truncate ${isSelected ? 'text-[#0F172A]' : 'text-gray-600'}`}>
+                                                    {type.label}
+                                                </span>
+                                            </div>
+
+                                            {/* Right Side: Columns (Fixed width matched to header) */}
+                                            <div className="flex items-center gap-8 text-xs font-medium text-gray-500 flex-none">
+                                                <span className="w-16 text-right tabular-nums">{type.partners}</span>
+                                                <span className="w-28 text-right text-gray-400">{type.roles}</span>
+                                            </div>
+                                        </div>
+
+                                        {/* Description Badge */}
+                                        {isSelected && type.description && (
+                                            <div className="px-14 pb-5 -mt-2">
+                                                <div className="bg-[#4F46E5]/5 text-[#4F46E5] text-[10px] font-bold px-3 py-1.5 rounded-md inline-block max-w-full leading-relaxed">
+                                                    {type.description}
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {/* Left Stick Accent */}
+                                        {isSelected && (
+                                            <div className="absolute left-0 top-1/2 -translate-y-1/2 h-8 w-1 bg-[#4F46E5] rounded-r-full"></div>
+                                        )}
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}

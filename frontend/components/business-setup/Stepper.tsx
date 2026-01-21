@@ -1,73 +1,68 @@
 'use client';
 
 import { useBusinessSetupStore } from '@/store/businessSetupStore';
-import { Flag } from 'lucide-react';
 
 export default function Stepper() {
-    const { currentStep, totalSteps, setStep } = useBusinessSetupStore();
+    const { currentStep, setStep } = useBusinessSetupStore();
 
-    // Design shows 1...11 and then a Finish flag.
-    const steps = Array.from({ length: 11 }, (_, i) => i + 1);
+    // Generate 12 steps
+    const steps = Array.from({ length: 12 }, (_, i) => i + 1);
 
     return (
-        <div className="w-full overflow-x-auto pb-6 pt-4">
-            <div className="flex items-center justify-between min-w-[800px] px-2">
+        <div className="w-full overflow-x-auto pt-6 pb-12 px-4 scrollbar-hide">
+            <div className="flex items-center justify-between min-w-[1000px] relative">
+
                 {steps.map((step) => {
                     const isActive = step === currentStep;
                     const isCompleted = step < currentStep;
 
+                    // Specific Logic for Lines
+                    // If this step is completed, the line AFTER it should be green (unless it's the last step)
+                    // If this step is active, the line BEFORE it is green.
+
                     return (
-                        <div key={step} className="flex-1 flex items-center relative">
-                            {/* Line connecting to previous */}
-                            {step > 1 && (
-                                <div className={`absolute top-5 right-[50%] w-full h-[2px] ${isCompleted || isActive ? 'bg-gray-200' : 'bg-gray-100'
-                                    }`}></div>
-                            )}
-                            {/* Line connecting to next */}
+                        <div key={step} className="flex-1 flex flex-col items-center relative">
+                            {/* Connecting Line */}
                             {step < 12 && (
-                                <div className={`absolute top-5 left-[50%] w-full h-[2px] ${isCompleted ? 'bg-gray-200' : 'bg-gray-100'
+                                <div className={`absolute top-[18px] left-1/2 w-full h-[3px] z-0 ${isCompleted ? 'bg-[#10B981]' : 'bg-gray-300'
                                     }`}></div>
                             )}
 
-                            <div className="relative flex flex-col items-center justify-center w-full z-10">
+                            <div className="relative flex flex-col items-center z-10 px-2">
                                 <button
                                     onClick={() => setStep(step)}
                                     className={`
-                                        w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold transition-all duration-200
+                                        w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold transition-all duration-300 relative
                                         ${isActive
-                                            ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-200 scale-110'
+                                            ? 'bg-[#4F46E5] text-white shadow-lg shadow-indigo-100 ring-4 ring-indigo-50 scale-110'
                                             : isCompleted
-                                                ? 'bg-white border border-indigo-200 text-indigo-600'
-                                                : 'bg-white border border-gray-200 text-gray-400'
+                                                ? 'bg-[#10B981] text-white ring-4 ring-white'
+                                                : 'bg-white border-2 border-gray-200 text-gray-400'
                                         }
                                     `}
                                 >
-                                    {step}
+                                    {isCompleted ? (
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>
+                                    ) : (
+                                        step.toString().padStart(2, '0')
+                                    )}
                                 </button>
-                                {step === 1 && (
-                                    <span className={`absolute top-12 text-xs font-medium ${isActive ? 'text-indigo-600' : 'text-gray-500'}`}>Start</span>
+
+                                {/* Labels */}
+                                {isActive && (
+                                    <span className="absolute top-12 text-[10px] font-bold text-[#4F46E5] uppercase tracking-wide whitespace-nowrap">
+                                        Current
+                                    </span>
+                                )}
+                                {isCompleted && step === 1 && ( // Just showing logic for specific labels if needed, or all completed
+                                    <span className="absolute top-12 text-[10px] font-bold text-[#10B981] uppercase tracking-wide whitespace-nowrap">
+                                        Step {step.toString().padStart(2, '0')}
+                                    </span>
                                 )}
                             </div>
                         </div>
                     );
                 })}
-
-                {/* Finish Step (12) */}
-                <div className="flex-1 flex items-center relative">
-                    <div className={`absolute top-5 right-[50%] w-full h-[2px] bg-gray-100`}></div>
-                    <div className="relative flex flex-col items-center justify-center w-full z-10">
-                        <div className={`
-                            w-10 h-10 rounded-full flex items-center justify-center border transition-all duration-200 bg-white
-                            ${currentStep === 12
-                                ? 'bg-indigo-600 text-white border-indigo-600 shadow-lg'
-                                : 'border-gray-200 text-gray-400'
-                            }
-                        `}>
-                            <Flag size={18} />
-                        </div>
-                        <span className={`absolute top-12 text-xs font-medium ${currentStep === 12 ? 'text-indigo-600' : 'text-gray-500'}`}>Finish</span>
-                    </div>
-                </div>
             </div>
         </div>
     );

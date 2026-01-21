@@ -1,8 +1,11 @@
 'use client';
 
-import { ArrowRight, ArrowLeft, Check, CornerDownRight } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Check, CornerDownRight, User } from 'lucide-react';
+import { useBusinessSetupStore } from '@/store/businessSetupStore';
 
-export default function Step1BusinessScope() {
+export default function Step2Partners() {
+    const { setStep, currentStep } = useBusinessSetupStore();
+    const prevStep = () => setStep(currentStep - 1);
 
     return (
         <div className="flex flex-col lg:flex-row gap-16 h-full items-stretch pt-4">
@@ -11,8 +14,8 @@ export default function Step1BusinessScope() {
 
                 {/* Title */}
                 <h2 className="text-5xl font-bold text-[#0F172A] mb-2 leading-[1.1] tracking-tight">
-                    Define Your <br />
-                    Business Scope
+                    Initial <br />
+                    Partner Details
                 </h2>
 
                 {/* Thick Divider */}
@@ -24,14 +27,19 @@ export default function Step1BusinessScope() {
                         The legal framework for your entity has been tailored based on your operational activities.
                     </p>
                     <p className="text-lg mt-6">
-                        You have successfully defined the primary and secondary activities. You may review these selections before proceeding to the incorporation phase.
+                        Select the number and nationalities of your partners if you have any, if not skip this step. You have successfully defined the primary and secondary activities.
                     </p>
                 </div>
 
-
+                <div className="mt-auto pt-6 border-t border-gray-200 w-full">
+                    <button onClick={prevStep} className="flex items-center gap-2 text-gray-400 hover:text-[#0F172A] font-bold text-sm transition-colors px-2 py-2 rounded-lg hover:bg-gray-50 -ml-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5" /><path d="m12 19-7-7 7-7" /></svg>
+                        Previous Step
+                    </button>
+                </div>
             </div>
 
-            {/* Right Card: Business Summary */}
+            {/* Right Card: Business Summary (Persistent) */}
             <div className="flex-1 flex flex-col max-w-md">
                 <div className="bg-white rounded-[32px] p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 flex flex-col">
                     {/* Card Header */}
