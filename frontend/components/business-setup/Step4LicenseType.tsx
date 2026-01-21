@@ -82,7 +82,7 @@ export default function Step4LicenseType() {
             </div>
 
             {/* Right Card: UI for Selection */}
-            <div className="flex-1 flex flex-col pt-4 w-full">
+            <div className="flex-1 flex flex-col mb-16 pt-4 w-full">
                 <div className="bg-white rounded-[32px] border border-gray-100 flex flex-col shadow-sm overflow-hidden min-h-[640px]">
 
                     {/* Browser Address Bar Mock */}

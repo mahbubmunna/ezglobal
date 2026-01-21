@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowRight, ArrowLeft, Check, CornerDownRight, User } from 'lucide-react';
+import { Plus, MoreHorizontal } from 'lucide-react';
 import { useBusinessSetupStore } from '@/store/businessSetupStore';
 
 export default function Step2Partners() {
@@ -39,67 +39,88 @@ export default function Step2Partners() {
                 </div>
             </div>
 
-            {/* Right Card: Business Summary (Persistent) */}
-            <div className="flex-1 flex flex-col max-w-md">
-                <div className="bg-white rounded-[32px] p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 flex flex-col">
-                    {/* Card Header */}
-                    <div className="flex items-center justify-between mb-10">
-                        <h3 className="text-xl font-bold text-[#0F172A]">Business Summary</h3>
-                        <div className="px-3 py-1 bg-green-50 text-[#10B981] text-[10px] font-bold uppercase tracking-wider rounded-full flex items-center gap-1.5">
-                            <div className="w-3 h-3 rounded-full bg-[#10B981] flex items-center justify-center text-white">
-                                <Check size={8} strokeWidth={4} />
-                            </div>
-                            Verified
-                        </div>
-                    </div>
-
-                    {/* Primary Activity */}
-                    <div className="mb-10">
-                        <h4 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Primary Activity</h4>
-                        <div className="flex gap-4">
-                            <div className="w-10 h-10 rounded-full bg-[#0F172A] flex items-center justify-center text-white flex-none shadow-lg shadow-[#0F172A]/20">
-                                <Check size={16} />
-                            </div>
+            {/* Right Card: Partner Management */}
+            <div>
+                <div className="flex-1 flex flex-col w-full">
+                    <div className="bg-white rounded-[32px] p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 flex flex-col h-full min-h-[500px] relative">
+                        {/* Header */}
+                        <div className="flex items-start justify-between mb-8">
                             <div>
-                                <div className="font-bold text-[#0F172A] text-lg leading-tight">Software Development & Consultancy</div>
-                                <div className="text-gray-400 text-xs font-mono mt-1">Class 6201 - Computer programming activities</div>
+                                <h3 className="text-2xl font-bold text-[#0F172A]">Partner Management</h3>
+                                <p className="text-gray-400 mt-1">Manage individuals and corporate partners</p>
+                            </div>
+                            <button className="bg-[#494FBB] hover:bg-[#3f44a5] text-white px-4 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 transition-colors shadow-lg shadow-[#494FBB]/20">
+                                <Plus size={16} strokeWidth={3} />
+                                Add Partner
+                            </button>
+                        </div>
+
+                        {/* Tabs */}
+                        <div className="flex items-center gap-8 border-b border-gray-100 mb-8">
+                            <button className="pb-3 border-b-2 border-[#0F172A] text-[#0F172A] font-bold text-sm">
+                                All Partners
+                            </button>
+                            <button className="pb-3 border-b-2 border-transparent text-gray-400 font-medium text-sm hover:text-gray-600 transition-colors">
+                                Individual
+                            </button>
+                            <button className="pb-3 border-b-2 border-transparent text-gray-400 font-medium text-sm hover:text-gray-600 transition-colors">
+                                Corporate
+                            </button>
+                        </div>
+
+                        {/* Table Headers */}
+                        <div className="grid grid-cols-12 gap-4 mb-4 px-4">
+                            <div className="col-span-6 text-[10px] font-bold text-gray-400 uppercase tracking-widest">NAME / EMAIL</div>
+                            <div className="col-span-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">NATIONALITY</div>
+                            <div className="col-span-2 text-[10px] font-bold text-gray-400 uppercase tracking-widest text-right">STAKE</div>
+                        </div>
+
+                        {/* Partner List */}
+                        <div className="space-y-3 mb-8">
+                            {/* Partner 1 */}
+                            <div className="bg-white border border-gray-100 rounded-2xl p-4 flex items-center shadow-sm hover:shadow-md transition-shadow group">
+                                <div className="flex-1 grid grid-cols-12 gap-4 items-center">
+                                    <div className="col-span-6 flex items-center gap-3">
+                                        <div className="w-10 h-10 rounded-full bg-blue-100 text-[#494FBB] flex items-center justify-center font-bold text-sm">JD</div>
+                                        <div>
+                                            <div className="font-bold text-[#0F172A] text-sm">John Doe</div>
+                                            <div className="text-gray-400 text-xs mt-0.5">john@example.com</div>
+                                        </div>
+                                    </div>
+                                    <div className="col-span-4 text-sm font-medium text-[#0F172A]">United States</div>
+                                    <div className="col-span-2 text-right font-bold text-[#494FBB]">60%</div>
+                                </div>
+                                <button className="ml-4 text-gray-300 hover:text-gray-600 transition-colors">
+                                    <MoreHorizontal size={20} />
+                                </button>
+                            </div>
+
+                            {/* Partner 2 */}
+                            <div className="bg-white border border-gray-100 rounded-2xl p-4 flex items-center shadow-sm hover:shadow-md transition-shadow group">
+                                <div className="flex-1 grid grid-cols-12 gap-4 items-center">
+                                    <div className="col-span-6 flex items-center gap-3">
+                                        <div className="w-10 h-10 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center font-bold text-sm">AS</div>
+                                        <div>
+                                            <div className="font-bold text-[#0F172A] text-sm">Amira Salem</div>
+                                            <div className="text-gray-400 text-xs mt-0.5">amira.s@global.ae</div>
+                                        </div>
+                                    </div>
+                                    <div className="col-span-4 text-sm font-medium text-[#0F172A]">UAE</div>
+                                    <div className="col-span-2 text-right font-bold text-[#494FBB]">40%</div>
+                                </div>
+                                <button className="ml-4 text-gray-300 hover:text-gray-600 transition-colors">
+                                    <MoreHorizontal size={20} />
+                                </button>
                             </div>
                         </div>
-                    </div>
 
-                    {/* Secondary Activities */}
-                    <div className="flex-1">
-                        <h4 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">Secondary Activities</h4>
-                        <div className="space-y-6">
-                            {/* Item 1 */}
-                            <div className="flex gap-4">
-                                <div className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 flex-none ml-0.5">
-                                    <CornerDownRight size={16} />
-                                </div>
-                                <div className="mt-1">
-                                    <div className="font-bold text-[#0F172A] text-base leading-tight">Data Processing & Hosting</div>
-                                    <div className="text-gray-400 text-xs font-mono mt-1 leading-relaxed">Class 6311 - Data processing, hosting and related</div>
-                                </div>
-                            </div>
-
-                            {/* Item 2 */}
-                            <div className="flex gap-4">
-                                <div className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 flex-none ml-0.5">
-                                    <CornerDownRight size={16} />
-                                </div>
-                                <div className="mt-1">
-                                    <div className="font-bold text-[#0F172A] text-base leading-tight">Business Consultancy</div>
-                                    <div className="text-gray-400 text-xs font-mono mt-1 leading-relaxed">Class 7022 - Business and other management</div>
-                                </div>
-                            </div>
-                        </div>
+                        {/* Add Another Partner Placeholder */}
+                        <button className="w-full py-4 rounded-2xl border-2 border-dashed border-gray-100 text-gray-400 font-medium text-sm hover:border-[#494FBB] hover:text-[#494FBB] hover:bg-indigo-50/50 transition-all flex items-center justify-center gap-2 mb-auto">
+                            <Plus size={16} />
+                            Add another partner to the list
+                        </button>
                     </div>
-
-                    {/* Footer Meta */}
-                    <div className="mt-12 pt-6 border-t border-gray-100 flex items-center justify-between text-[10px] text-gray-400 font-mono tracking-wide">
-                        <div>Last saved: Just now</div>
-                        <div>ID: 992-BA</div>
-                    </div>
+                    <div className='mb-16'></div>
                 </div>
             </div>
         </div>
