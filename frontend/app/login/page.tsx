@@ -43,7 +43,7 @@ export default function LoginPage() {
         <AuthLayout>
             <div className="text-center mb-8">
                 <h1 className="text-2xl font-bold text-gray-900 mb-2">
-                    <span className="text-indigo-600">EZ</span>Global
+                    <span className="text-indigo-600">EZ </span>GLOBAL
                 </h1>
                 <h2 className="text-xl font-semibold text-gray-800">Login</h2>
                 <p className="text-sm text-gray-500 mt-1">Welcome back to your dashboard</p>
@@ -112,7 +112,7 @@ export default function LoginPage() {
             </form>
 
             <div className="mt-8 text-center text-xs text-gray-500 uppercase tracking-wider">
-                <span>New to EZGlobal? </span>
+                <span>New to EZ Global? </span>
                 <Link href="/register/step-1" className="text-indigo-600 hover:text-indigo-500 font-bold ml-1">
                     CREATE ACCOUNT
                 </Link>
