@@ -23,6 +23,8 @@ class Settings(BaseSettings):
         raise ValueError(v)
 
     # Database
+    ezglobal_DATABASE_URL: str = ""
+    ezglobal_POSTGRES_URL: str = ""
     DATABASE_URL: str = ""
     POSTGRES_URL: str = ""
     POSTGRES_USER: str = "postgres"
@@ -44,6 +46,12 @@ class Settings(BaseSettings):
     @computed_field
     @property
     def SQLALCHEMY_DATABASE_URI(self) -> str:
+        if self.ezglobal_DATABASE_URL:
+             return self.ezglobal_DATABASE_URL.replace("postgresql://", "postgresql+asyncpg://").replace("?sslmode=require", "").replace("&sslmode=require", "")
+
+        if self.ezglobal_POSTGRES_URL:
+             return self.ezglobal_POSTGRES_URL.replace("postgresql://", "postgresql+asyncpg://").replace("?sslmode=require", "").replace("&sslmode=require", "")
+
         if self.DATABASE_URL:
             # Ensure asyncpg driver and strip sslmode
             return self.DATABASE_URL.replace("postgresql://", "postgresql+asyncpg://").replace("?sslmode=require", "").replace("&sslmode=require", "")
@@ -60,6 +68,6 @@ class Settings(BaseSettings):
             path=self.POSTGRES_DB,
         ))
 
-    model_config = SettingsConfigDict(env_file=".env", case_sensitive=True)
+    model_config = SettingsConfigDict(env_file=".env", case_sensitive=True, extra="ignore")
 
 settings = Settings()

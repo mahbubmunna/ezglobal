@@ -18,7 +18,11 @@ config = context.config
 
 # Set sqlalchemy.url from environment variable
 # Use postgresql+asyncpg scheme
-database_url = os.getenv("DATABASE_URL")
+database_url = os.getenv("ezglobal_DATABASE_URL")
+if not database_url:
+    database_url = os.getenv("ezglobal_POSTGRES_URL")
+if not database_url:
+    database_url = os.getenv("DATABASE_URL")
 if not database_url:
     database_url = os.getenv("POSTGRES_URL")
 
