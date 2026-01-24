@@ -18,15 +18,21 @@ config = context.config
 
 # Set sqlalchemy.url from environment variable
 # Use postgresql+asyncpg scheme
-user = os.getenv("POSTGRES_USER", "postgres")
-password = os.getenv("POSTGRES_PASSWORD", "password")
-server = os.getenv("POSTGRES_SERVER", "localhost")
-port = os.getenv("POSTGRES_PORT", "5432")
-db = os.getenv("POSTGRES_DB", "app")
-config.set_main_option(
-    "sqlalchemy.url",
-    f"postgresql+asyncpg://{user}:{password}@{server}:{port}/{db}"
-)
+database_url = os.getenv("DATABASE_URL")
+if not database_url:
+    database_url = os.getenv("POSTGRES_URL")
+
+if database_url:
+    url = database_url.replace("postgresql://", "postgresql+asyncpg://")
+else:
+    user = os.getenv("POSTGRES_USER", "postgres")
+    password = os.getenv("POSTGRES_PASSWORD", "password")
+    server = os.getenv("POSTGRES_SERVER", "localhost")
+    port = os.getenv("POSTGRES_PORT", "5432")
+    db = os.getenv("POSTGRES_DB", "app")
+    url = f"postgresql+asyncpg://{user}:{password}@{server}:{port}/{db}"
+
+config.set_main_option("sqlalchemy.url", url)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.

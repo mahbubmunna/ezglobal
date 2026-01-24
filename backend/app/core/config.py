@@ -23,6 +23,8 @@ class Settings(BaseSettings):
         raise ValueError(v)
 
     # Database
+    DATABASE_URL: str = ""
+    POSTGRES_URL: str = ""
     POSTGRES_USER: str = "postgres"
     POSTGRES_PASSWORD: str = "password"
     POSTGRES_SERVER: str = "localhost"
@@ -41,15 +43,22 @@ class Settings(BaseSettings):
 
     @computed_field
     @property
-    def SQLALCHEMY_DATABASE_URI(self) -> PostgresDsn:
-        return PostgresDsn.build(
+    def SQLALCHEMY_DATABASE_URI(self) -> str:
+        if self.DATABASE_URL:
+            # Ensure asyncpg driver
+            return self.DATABASE_URL.replace("postgresql://", "postgresql+asyncpg://")
+        
+        if self.POSTGRES_URL:
+            return self.POSTGRES_URL.replace("postgresql://", "postgresql+asyncpg://")
+
+        return str(PostgresDsn.build(
             scheme="postgresql+asyncpg",
             username=self.POSTGRES_USER,
             password=self.POSTGRES_PASSWORD,
             host=self.POSTGRES_SERVER,
             port=self.POSTGRES_PORT,
             path=self.POSTGRES_DB,
-        )
+        ))
 
     model_config = SettingsConfigDict(env_file=".env", case_sensitive=True)
 
