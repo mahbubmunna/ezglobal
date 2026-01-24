@@ -29,7 +29,8 @@ export default function LoginPage() {
 
             const user = response.data;
             setAuth(user);
-            router.push('/dashboard');
+            // Use window.location to force full reload and ensure cookies are sent to Middleware
+            window.location.href = '/dashboard';
 
         } catch (err: any) {
             const msg = err.response?.data?.detail || 'Invalid credentials';
