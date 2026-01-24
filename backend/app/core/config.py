@@ -6,6 +6,7 @@ class Settings(BaseSettings):
     PROJECT_NAME: str = "Auth Phase 0"
     API_V1_STR: str = "/api/v1"
     SECRET_KEY: str = "CHANGE_THIS_TO_A_SECURE_SECRET_KEY"  # In production, use env var
+    ENVIRONMENT: str = "production"
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
@@ -42,6 +43,23 @@ class Settings(BaseSettings):
     MAIL_STARTTLS: bool = True
     MAIL_SSL_TLS: bool = False
     USE_CREDENTIALS: bool = True
+
+    @computed_field
+    @property
+    def IS_PRODUCTION(self) -> bool:
+        return self.ENVIRONMENT.lower() in ("production", "prod", "vercel")
+
+    @computed_field
+    @property
+    def COOKIE_SECURE(self) -> bool:
+        return self.IS_PRODUCTION
+
+    @computed_field
+    @property
+    def COOKIE_SAMESITE(self) -> str:
+        if self.IS_PRODUCTION:
+            return "none"
+        return "lax"
 
     @computed_field
     @property

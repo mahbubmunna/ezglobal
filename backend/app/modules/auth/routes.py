@@ -9,6 +9,7 @@ from app.modules.otp import service as otp_service
 from app.db.models.users import UserCreate, UserUpdate, User
 from app.core.security import verify_password, create_access_token, create_refresh_token
 from app.modules.auth.dependencies import get_current_active_user
+from app.core.config import settings
 
 router = APIRouter()
 
@@ -109,12 +110,20 @@ async def set_password(
     refresh_token = create_refresh_token(user.email)
     
     # Set Cookies
-    is_production = os.getenv("VERCEL") == "1"
-    cookie_secure = is_production
-    cookie_samesite = "none" if is_production else "lax"
-    
-    response.set_cookie(key="access_token", value=f"Bearer {access_token}", httponly=True, samesite=cookie_samesite, secure=cookie_secure)
-    response.set_cookie(key="refresh_token", value=refresh_token, httponly=True, samesite=cookie_samesite, secure=cookie_secure)
+    response.set_cookie(
+        key="access_token", 
+        value=f"Bearer {access_token}", 
+        httponly=True, 
+        samesite=settings.COOKIE_SAMESITE, 
+        secure=settings.COOKIE_SECURE
+    )
+    response.set_cookie(
+        key="refresh_token", 
+        value=refresh_token, 
+        httponly=True, 
+        samesite=settings.COOKIE_SAMESITE, 
+        secure=settings.COOKIE_SECURE
+    )
 
     return user
 
@@ -138,12 +147,20 @@ async def login(
     access_token = create_access_token(user.email)
     refresh_token = create_refresh_token(user.email)
     
-    is_production = os.getenv("VERCEL") == "1"
-    cookie_secure = is_production
-    cookie_samesite = "none" if is_production else "lax"
-    
-    response.set_cookie(key="access_token", value=f"Bearer {access_token}", httponly=True, samesite=cookie_samesite, secure=cookie_secure)
-    response.set_cookie(key="refresh_token", value=refresh_token, httponly=True, samesite=cookie_samesite, secure=cookie_secure)
+    response.set_cookie(
+        key="access_token", 
+        value=f"Bearer {access_token}", 
+        httponly=True, 
+        samesite=settings.COOKIE_SAMESITE, 
+        secure=settings.COOKIE_SECURE
+    )
+    response.set_cookie(
+        key="refresh_token", 
+        value=refresh_token, 
+        httponly=True, 
+        samesite=settings.COOKIE_SAMESITE, 
+        secure=settings.COOKIE_SECURE
+    )
     
     return user
 
