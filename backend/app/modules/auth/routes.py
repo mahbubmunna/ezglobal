@@ -1,5 +1,6 @@
 from typing import Annotated
-from fastapi import APIRouter, Depends, HTTPException, status, Response
+from fastapi import APIRouter, Depends, HTTPException, status, Response, Request
+import os
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.db.session import get_db
 from app.modules.auth import schemas
@@ -108,11 +109,12 @@ async def set_password(
     refresh_token = create_refresh_token(user.email)
     
     # Set Cookies
-    # secure=False for local dev if http, but user asked for secure. Next.js is localhost, backend is localhost.
-    # But for "production-ready", we should probably use validation. 
-    # Let's check 'Secure HTTP-only cookies' requirement. I will set secure=False for localhost dev to work, but comment.
-    response.set_cookie(key="access_token", value=f"Bearer {access_token}", httponly=True, samesite="lax", secure=False)
-    response.set_cookie(key="refresh_token", value=refresh_token, httponly=True, samesite="lax", secure=False)
+    is_production = os.getenv("VERCEL") == "1"
+    cookie_secure = is_production
+    cookie_samesite = "none" if is_production else "lax"
+    
+    response.set_cookie(key="access_token", value=f"Bearer {access_token}", httponly=True, samesite=cookie_samesite, secure=cookie_secure)
+    response.set_cookie(key="refresh_token", value=refresh_token, httponly=True, samesite=cookie_samesite, secure=cookie_secure)
 
     return user
 
@@ -136,8 +138,12 @@ async def login(
     access_token = create_access_token(user.email)
     refresh_token = create_refresh_token(user.email)
     
-    response.set_cookie(key="access_token", value=f"Bearer {access_token}", httponly=True, samesite="lax", secure=False)
-    response.set_cookie(key="refresh_token", value=refresh_token, httponly=True, samesite="lax", secure=False)
+    is_production = os.getenv("VERCEL") == "1"
+    cookie_secure = is_production
+    cookie_samesite = "none" if is_production else "lax"
+    
+    response.set_cookie(key="access_token", value=f"Bearer {access_token}", httponly=True, samesite=cookie_samesite, secure=cookie_secure)
+    response.set_cookie(key="refresh_token", value=refresh_token, httponly=True, samesite=cookie_samesite, secure=cookie_secure)
     
     return user
 
