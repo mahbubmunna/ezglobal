@@ -26,7 +26,7 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
             <header className="relative z-10 flex items-center justify-between px-6 py-4 lg:px-12 backdrop-blur-sm bg-black/10 border-b border-white/10">
                 <div className="flex items-center gap-8">
                     <Link href="/" className="text-2xl font-bold text-white tracking-tight">
-                        <span className="text-indigo-400">EZ</span>Global
+                        <span className="text-indigo-400">EZ </span>GLOBAL
                     </Link>
                     <nav className="hidden md:flex gap-6 text-sm font-medium text-gray-200">
                         <Link href="/" className="hover:text-white transition-colors">Home</Link>

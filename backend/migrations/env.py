@@ -93,12 +93,21 @@ async def run_async_migrations() -> None:
     and associate a connection with the context.
 
     """
+    url = config.get_main_option("sqlalchemy.url")
+    connect_args = {}
+    # Heuristic: if connecting to neon/aws, assume SSL needed
+    if url and ("neon.tech" in url or "aws" in url):
+        connect_args["ssl"] = "require"
 
     connectable = async_engine_from_config(
         config.get_section(config.config_ini_section, {}),
         prefix="sqlalchemy.",
         poolclass=pool.NullPool,
+<<<<<<< HEAD
         connect_args={"ssl": "require"},
+=======
+        connect_args=connect_args,
+>>>>>>> main
     )
 
     async with connectable.connect() as connection:
