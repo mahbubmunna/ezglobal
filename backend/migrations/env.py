@@ -23,7 +23,7 @@ if not database_url:
     database_url = os.getenv("POSTGRES_URL")
 
 if database_url:
-    url = database_url.replace("postgresql://", "postgresql+asyncpg://")
+    url = database_url.replace("postgresql://", "postgresql+asyncpg://").replace("?sslmode=require", "").replace("&sslmode=require", "")
 else:
     user = os.getenv("POSTGRES_USER", "postgres")
     password = os.getenv("POSTGRES_PASSWORD", "password")
@@ -94,6 +94,7 @@ async def run_async_migrations() -> None:
         config.get_section(config.config_ini_section, {}),
         prefix="sqlalchemy.",
         poolclass=pool.NullPool,
+        connect_args={"ssl": "require"},
     )
 
     async with connectable.connect() as connection:

@@ -45,11 +45,11 @@ class Settings(BaseSettings):
     @property
     def SQLALCHEMY_DATABASE_URI(self) -> str:
         if self.DATABASE_URL:
-            # Ensure asyncpg driver
-            return self.DATABASE_URL.replace("postgresql://", "postgresql+asyncpg://")
+            # Ensure asyncpg driver and strip sslmode
+            return self.DATABASE_URL.replace("postgresql://", "postgresql+asyncpg://").replace("?sslmode=require", "").replace("&sslmode=require", "")
         
         if self.POSTGRES_URL:
-            return self.POSTGRES_URL.replace("postgresql://", "postgresql+asyncpg://")
+            return self.POSTGRES_URL.replace("postgresql://", "postgresql+asyncpg://").replace("?sslmode=require", "").replace("&sslmode=require", "")
 
         return str(PostgresDsn.build(
             scheme="postgresql+asyncpg",
