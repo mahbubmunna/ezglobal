@@ -3,7 +3,7 @@ from pydantic import PostgresDsn, computed_field, AnyHttpUrl, field_validator
 from typing import List, Union, Any
 
 class Settings(BaseSettings):
-    PROJECT_NAME: str = "Auth Phase 0"
+    PROJECT_NAME: str = "Ez Global Backend"
     API_V1_STR: str = "/api/v1"
     SECRET_KEY: str = "CHANGE_THIS_TO_A_SECURE_SECRET_KEY"  # In production, use env var
     ENVIRONMENT: str = "local"
