@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { useAuthStore } from '@/store/authStore';
 
-// Default to local backend if env var is not set
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1';
+// Use relative path to leverage Next.js rewrites (Same-Origin)
+const API_URL = '/api/v1';
 
 const api = axios.create({
     baseURL: API_URL,
