@@ -135,7 +135,8 @@ async def login(
     refresh_token = create_refresh_token(user.email)
     
     set_auth_cookies(response, access_token, refresh_token)
-    return schemas.UserResponse.model_validate(user)
+    
+    return user
 
 @router.get("/me", response_model=schemas.UserResponse)
 async def read_users_me(

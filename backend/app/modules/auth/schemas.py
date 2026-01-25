@@ -1,5 +1,5 @@
 from typing import Optional
-from pydantic import BaseModel, EmailStr, ConfigDict
+from pydantic import BaseModel, EmailStr
 
 class RegisterStart(BaseModel):
     first_name: str
@@ -30,4 +30,3 @@ class UserResponse(BaseModel):
     first_name: str
     last_name: str
     is_verified: bool
-    model_config = ConfigDict(from_attributes=True)
