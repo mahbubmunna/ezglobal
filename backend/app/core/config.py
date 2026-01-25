@@ -64,6 +64,13 @@ class Settings(BaseSettings):
     @computed_field
     @property
     def SQLALCHEMY_DATABASE_URI(self) -> str:
+        # If in local environment, prioritize local database connection strings if available
+        if self.ENVIRONMENT == "local":
+             if self.DATABASE_URL:
+                 return self.DATABASE_URL.replace("postgresql://", "postgresql+asyncpg://").replace("?sslmode=require", "").replace("&sslmode=require", "")
+             if self.POSTGRES_URL:
+                 return self.POSTGRES_URL.replace("postgresql://", "postgresql+asyncpg://").replace("?sslmode=require", "").replace("&sslmode=require", "")
+
         if self.ezglobal_DATABASE_URL:
              return self.ezglobal_DATABASE_URL.replace("postgresql://", "postgresql+asyncpg://").replace("?sslmode=require", "").replace("&sslmode=require", "")
 

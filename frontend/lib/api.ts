@@ -1,8 +1,11 @@
 import axios from 'axios';
 import { useAuthStore } from '@/store/authStore';
 
+// Default to local backend if env var is not set
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1';
+
 const api = axios.create({
-    baseURL: 'https://ezglobalbackend.vercel.app/api/v1',
+    baseURL: API_URL,
     headers: {
         'Content-Type': 'application/json',
     },
