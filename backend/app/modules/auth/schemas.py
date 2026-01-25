@@ -30,3 +30,4 @@ class UserResponse(BaseModel):
     first_name: str
     last_name: str
     is_verified: bool
+    model_config = ConfigDict(from_attributes=True)
