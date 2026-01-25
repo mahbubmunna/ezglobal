@@ -38,12 +38,14 @@ def set_auth_cookies(response: Any, access_token: str, refresh_token: str) -> No
         value=access_token, 
         httponly=True, 
         samesite=settings.COOKIE_SAMESITE, 
-        secure=settings.COOKIE_SECURE
+        secure=settings.COOKIE_SECURE,
+        path="/",
     )
     response.set_cookie(
         key="refresh_token", 
         value=refresh_token, 
         httponly=True, 
         samesite=settings.COOKIE_SAMESITE, 
-        secure=settings.COOKIE_SECURE
+        secure=settings.COOKIE_SECURE,
+        path="/",
     )

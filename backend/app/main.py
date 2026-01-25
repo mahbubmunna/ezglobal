@@ -16,7 +16,7 @@ if settings.BACKEND_CORS_ORIGINS:
 
 @app.get("/")
 def root():
-    return {"message": "Welcome to Auth Phase 0 API"}
+    return {"message": "Welcome to Ez global API"}
 
 from app.modules.auth.routes import router as auth_router
 
