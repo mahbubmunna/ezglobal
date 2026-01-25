@@ -31,3 +31,19 @@ def create_refresh_token(subject: Union[str, Any], expires_delta: Optional[timed
     to_encode = {"exp": expire, "sub": str(subject), "type": "refresh"}
     encoded_jwt = jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
     return encoded_jwt
+
+def set_auth_cookies(response: Any, access_token: str, refresh_token: str) -> None:
+    response.set_cookie(
+        key="access_token", 
+        value=access_token, 
+        httponly=True, 
+        samesite=settings.COOKIE_SAMESITE, 
+        secure=settings.COOKIE_SECURE
+    )
+    response.set_cookie(
+        key="refresh_token", 
+        value=refresh_token, 
+        httponly=True, 
+        samesite=settings.COOKIE_SAMESITE, 
+        secure=settings.COOKIE_SECURE
+    )

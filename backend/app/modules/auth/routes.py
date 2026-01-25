@@ -7,7 +7,7 @@ from app.modules.auth import schemas
 from app.modules.users import service as user_service
 from app.modules.otp import service as otp_service
 from app.db.models.users import UserCreate, UserUpdate, User
-from app.core.security import verify_password, create_access_token, create_refresh_token
+from app.core.security import verify_password, create_access_token, create_refresh_token, set_auth_cookies
 from app.modules.auth.dependencies import get_current_active_user
 from app.core.config import settings
 
@@ -110,20 +110,7 @@ async def set_password(
     refresh_token = create_refresh_token(user.email)
     
     # Set Cookies
-    response.set_cookie(
-        key="access_token", 
-        value=f"Bearer {access_token}", 
-        httponly=True, 
-        samesite=settings.COOKIE_SAMESITE, 
-        secure=settings.COOKIE_SECURE
-    )
-    response.set_cookie(
-        key="refresh_token", 
-        value=refresh_token, 
-        httponly=True, 
-        samesite=settings.COOKIE_SAMESITE, 
-        secure=settings.COOKIE_SECURE
-    )
+    set_auth_cookies(response, access_token, refresh_token)
 
     return user
 
@@ -147,20 +134,7 @@ async def login(
     access_token = create_access_token(user.email)
     refresh_token = create_refresh_token(user.email)
     
-    response.set_cookie(
-        key="access_token", 
-        value=f"Bearer {access_token}", 
-        httponly=True, 
-        samesite=settings.COOKIE_SAMESITE, 
-        secure=settings.COOKIE_SECURE
-    )
-    response.set_cookie(
-        key="refresh_token", 
-        value=refresh_token, 
-        httponly=True, 
-        samesite=settings.COOKIE_SAMESITE, 
-        secure=settings.COOKIE_SECURE
-    )
+    set_auth_cookies(response, access_token, refresh_token)
     
     return user
 

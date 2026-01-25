@@ -25,7 +25,7 @@ export default function LoginPage() {
             const response = await api.post('/auth/login', {
                 email,
                 password
-            });
+            }, { withCredentials: true });
 
             const user = response.data;
             setAuth(user);

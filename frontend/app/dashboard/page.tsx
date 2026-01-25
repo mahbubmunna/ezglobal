@@ -14,14 +14,10 @@ export default function DashboardPage() {
 
     useEffect(() => {
         setMounted(true);
-        if (!isAuthenticated) {
-            router.push('/login');
-        }
-    }, [isAuthenticated, router]);
+    }, []);
 
-    if (!mounted || !isAuthenticated || !user) {
-        return null;
-    }
+    if (!mounted) return null;
+    if (!user) return null;
 
     return (
         <DashboardLayout>
