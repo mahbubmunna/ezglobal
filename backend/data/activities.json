@@ -1,0 +1,284 @@
+[
+    {
+        "code": "2511011",
+        "valueEn": "Central Air-Conditioning Requisites Manufacturing",
+        "id": 3042,
+        "licenseType": "Industrial"
+    },
+    {
+        "code": "2511013",
+        "valueEn": "Metal False Ceilings Manufacturing",
+        "id": 3043,
+        "licenseType": "Industrial"
+    },
+    {
+        "code": "2100106",
+        "valueEn": "Veterinary Medicine Manufacturing",
+        "id": 3046,
+        "licenseType": "Industrial"
+    },
+    {
+        "code": "4752034",
+        "valueEn": "Building & Construction Materials Trading",
+        "id": 3094,
+        "licenseType": "Commercial"
+    },
+    {
+        "code": "4752022",
+        "valueEn": "Glass & Mirrors Trading",
+        "id": 3097,
+        "licenseType": "Commercial"
+    },
+    {
+        "code": "4721043",
+        "valueEn": "Flour Trading",
+        "id": 3106,
+        "licenseType": "Commercial"
+    },
+    {
+        "code": "8620005",
+        "valueEn": "Paediatric Clinic",
+        "id": 3111,
+        "licenseType": "Professional"
+    },
+    {
+        "code": "2652001",
+        "valueEn": "Watches & Clocks Manufacturing",
+        "id": 3118,
+        "licenseType": "Industrial"
+    },
+    {
+        "code": "6619003",
+        "valueEn": "Financial Instruments Quotation Services",
+        "id": 3123,
+        "licenseType": "Professional"
+    },
+    {
+        "code": "1701002",
+        "valueEn": "Paper Manufacturing",
+        "id": 3125,
+        "licenseType": "Industrial"
+    },
+    {
+        "code": "4771201",
+        "valueEn": "Readymade Garments Trading",
+        "id": 3144,
+        "licenseType": "Commercial"
+    },
+    {
+        "code": "1050006",
+        "valueEn": "Ice Cream Manufacturing",
+        "id": 3160,
+        "licenseType": "Industrial"
+    },
+    {
+        "code": "4210001",
+        "valueEn": "Road Contracting",
+        "id": 3168,
+        "licenseType": "Commercial"
+    },
+    {
+        "code": "8211002",
+        "valueEn": "Theater & Cinema Management",
+        "id": 3177,
+        "licenseType": "Professional"
+    },
+    {
+        "code": "4922003",
+        "valueEn": "Taxi Services",
+        "id": 3178,
+        "licenseType": "Professional"
+    },
+    {
+        "code": "1812001",
+        "valueEn": "Books Binding",
+        "id": 3185,
+        "licenseType": "Industrial"
+    },
+    {
+        "code": "4620201",
+        "valueEn": "Livestock Trading",
+        "id": 3203,
+        "licenseType": "Commercial"
+    },
+    {
+        "code": "7110935",
+        "valueEn": "Plastics Engineering Services",
+        "id": 3216,
+        "licenseType": "Professional"
+    },
+    {
+        "code": "0113001",
+        "valueEn": "Growing of Vegetables",
+        "id": 3221,
+        "licenseType": "Commercial"
+    },
+    {
+        "code": "4321001",
+        "valueEn": "Electrical Fitting Contracting",
+        "id": 3239,
+        "licenseType": "Commercial"
+    },
+    {
+        "code": "6910005",
+        "valueEn": "Intellectual Property Registration Agent",
+        "id": 3244,
+        "licenseType": "Professional"
+    },
+    {
+        "code": "2610003",
+        "valueEn": "Electronic Wafers & Semiconductors Manufacturing",
+        "id": 3250,
+        "licenseType": "Industrial"
+    },
+    {
+        "code": "7110106",
+        "valueEn": "Mechanical Engineering Consultancies",
+        "id": 3251,
+        "licenseType": "Professional"
+    },
+    {
+        "code": "5110001",
+        "valueEn": "Air Lines Of Passengers & Cargo Transportation",
+        "id": 3259,
+        "licenseType": "Commercial"
+    },
+    {
+        "code": "5813001",
+        "valueEn": "Publishing Of Newspapers, Magazines & Periodicals",
+        "id": 3273,
+        "licenseType": "Professional"
+    },
+    {
+        "code": "2620101",
+        "valueEn": "Computer Assembling",
+        "id": 3289,
+        "licenseType": "Industrial"
+    },
+    {
+        "code": "1030009",
+        "valueEn": "Fruit Juices Manufacturing",
+        "id": 3302,
+        "licenseType": "Industrial"
+    },
+    {
+        "code": "9521001",
+        "valueEn": "Electronic Instruments, Devices & Equipment Repairing",
+        "id": 3312,
+        "licenseType": "Professional"
+    },
+    {
+        "code": "4330003",
+        "valueEn": "Painting Contracting",
+        "id": 3327,
+        "licenseType": "Commercial"
+    },
+    {
+        "code": "8230005",
+        "valueEn": "Fashion Shows Organizing",
+        "id": 3345,
+        "licenseType": "Professional"
+    },
+    {
+        "code": "8510001",
+        "valueEn": "Kindergarten",
+        "id": 3349,
+        "licenseType": "Professional"
+    },
+    {
+        "code": "3092001",
+        "valueEn": "Bicycles Manufacturing",
+        "id": 3366,
+        "licenseType": "Industrial"
+    },
+    {
+        "code": "7020017",
+        "valueEn": "Sport Research & Consultancies",
+        "id": 3376,
+        "licenseType": "Professional"
+    },
+    {
+        "code": "1079005",
+        "valueEn": "Coffee Roasting & Packaging",
+        "id": 3378,
+        "licenseType": "Industrial"
+    },
+    {
+        "code": "1071002",
+        "valueEn": "Pastry & Sweets Manufacturing",
+        "id": 3392,
+        "licenseType": "Industrial"
+    },
+    {
+        "code": "4721012",
+        "valueEn": "Coffee Trading",
+        "id": 3876,
+        "licenseType": "Commercial"
+    },
+    {
+        "code": "4690018",
+        "valueEn": "General Trading",
+        "id": 3639,
+        "licenseType": "Commercial"
+    },
+    {
+        "code": "6202009",
+        "valueEn": "Network Consultancies",
+        "id": 3446,
+        "licenseType": "Professional"
+    },
+    {
+        "code": "7310017",
+        "valueEn": "Advertising Researches & Consultancies",
+        "id": 3451,
+        "licenseType": "Professional"
+    },
+    {
+        "code": "8010013",
+        "valueEn": "General Security Guard Services",
+        "id": 3454,
+        "licenseType": "Professional"
+    },
+    {
+        "code": "6511001",
+        "valueEn": "Life Insurance",
+        "id": 3478,
+        "licenseType": "Commercial"
+    },
+    {
+        "code": "4610004",
+        "valueEn": "Auction Hall",
+        "id": 3443,
+        "licenseType": "Commercial"
+    },
+    {
+        "code": "7410001",
+        "valueEn": "Fashion Designing",
+        "id": 3717,
+        "licenseType": "Professional"
+    },
+    {
+        "code": "5912003",
+        "valueEn": "TV Studio",
+        "id": 3721,
+        "licenseType": "Professional"
+    },
+    {
+        "code": "7020020",
+        "valueEn": "Project Development Consultant",
+        "id": 3674,
+        "licenseType": "Professional"
+    },
+    {
+        "code": "6920003",
+        "valueEn": "Accounting & Bookkeeping",
+        "id": 3842,
+        "licenseType": "Professional"
+    },
+    {
+        "code": "6391001",
+        "valueEn": "News Agency",
+        "id": 3561,
+        "licenseType": "Professional"
+    }
+]

@@ -1,0 +1,39 @@
+{
+    "baseFees": {
+        "tradeName": 620,
+        "initialApproval": 120,
+        "licenseRegistration": 600,
+        "knowledgeInnovation": 20,
+        "immigrationCard": 500
+    },
+    "licenseTypes": {
+        "Commercial": 12000,
+        "Professional": 8000,
+        "Industrial": 25000,
+        "Tourism": 15000
+    },
+    "structureAddons": {
+        "sole-establishment": {
+            "foreignOwnerAgentFee": 5000,
+            "moaFee": 0,
+            "description": "Sole Establishment (Foreign Owner)"
+        },
+        "llc-so": {
+            "moaFee": 1500,
+            "description": "LLC - Single Owner"
+        },
+        "pjsc": {
+            "moaFee": 5000,
+            "description": "Private Joint Stock Company"
+        }
+    },
+    "visa": {
+        "costPerPerson": 6500,
+        "medicalIdPerPerson": 1500
+    },
+    "office": {
+        "flexiDesk": 6000,
+        "physical": 25000
+    },
+    "marketFeeRate": 0.025
+}
