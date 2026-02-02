@@ -2,8 +2,9 @@
 
 import React, { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { ArrowRight, Rocket, Bookmark } from 'lucide-react';
+import { ArrowRight, Rocket, Bookmark, Loader2 } from 'lucide-react';
 import DashboardLayout from '@/components/dashboard/DashboardLayout';
+import PageTransition from '@/components/PageTransition';
 
 function SetupChoiceContent() {
     const router = useRouter();
@@ -48,101 +49,110 @@ function SetupChoiceContent() {
 
     return (
         <div className="max-w-6xl mx-auto py-8">
+            <PageTransition>
 
-            {/* Main Card Container */}
-            <div className="bg-white rounded-[2rem] p-12 shadow-sm border border-gray-100 min-h-[600px] flex flex-col relative">
+                {/* Main Card Container */}
+                <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-gray-100 min-h-[500px] flex flex-col relative">
 
-                {/* Header Actions - Continue Button Removed */}
-                <div className="absolute top-10 right-10 flex items-center gap-3">
-                    <button
-                        onClick={() => router.back()}
-                        className="bg-white border border-gray-200 px-6 py-2.5 rounded-xl font-medium text-gray-600 hover:text-[#0F172A] hover:border-gray-300 transition-colors"
-                    >
-                        Back
-                    </button>
-                    {/* Continue button removed as Start is the primary action */}
-                </div>
+                    {/* Header Actions */}
+                    <div className="absolute top-8 right-8 flex items-center gap-3">
+                        <button
+                            onClick={() => router.back()}
+                            className="bg-white border border-gray-200 px-5 py-2 rounded-xl font-medium text-gray-600 hover:text-[#0F172A] hover:border-gray-300 transition-colors text-sm"
+                        >
+                            Back
+                        </button>
+                    </div>
 
-                {/* Title Section */}
-                <div className="mb-14 mt-4">
-                    <h1 className="text-4xl font-bold text-[#0F172A] mb-3">Chart Your Business Path</h1>
-                    <p className="text-gray-500 text-lg">Select how you would like to begin your venture in Dubai.</p>
-                </div>
+                    {/* Title Section */}
+                    <div className="mb-8 mt-2">
+                        <h1 className="text-3xl font-bold text-[#0F172A] mb-2">Chart Your Business Path</h1>
+                        <p className="text-gray-500 text-base">Select how you would like to begin your venture in Dubai.</p>
+                    </div>
 
-                {/* Choice Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12 max-w-5xl">
-                    {/* Option 1: Launch New Venture */}
-                    <div
-                        onClick={() => setChoice('new-business')}
-                        className={`cursor-pointer rounded-3xl border-2 p-8 h-80 flex flex-col justify-between transition-all duration-300 group relative ${choice === 'new-business'
-                            ? 'border-[#494FBB] shadow-xl shadow-indigo-50 ring-1 ring-[#494FBB] bg-white'
-                            : 'border-gray-100 hover:border-gray-200 hover:shadow-md bg-white'
-                            }`}
-                    >
-                        {/* Top Section */}
-                        <div className="flex justify-between items-start">
-                            <div className="w-14 h-14 rounded-2xl bg-indigo-50 flex items-center justify-center text-[#494FBB]">
-                                <Rocket size={28} />
+                    {/* Choice Cards */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 max-w-5xl">
+                        {/* Option 1: Launch New Venture */}
+                        <div
+                            onClick={() => setChoice('new-business')}
+                            className={`cursor-pointer rounded-2xl border-2 p-6 h-56 flex flex-col justify-between transition-all duration-300 group relative ${choice === 'new-business'
+                                ? 'border-[#494FBB] shadow-lg shadow-indigo-50 ring-1 ring-[#494FBB] bg-white'
+                                : 'border-gray-100 hover:border-gray-200 hover:shadow-md bg-white'
+                                }`}
+                        >
+                            {/* Top Section */}
+                            <div className="flex justify-between items-start">
+                                <div className="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center text-[#494FBB]">
+                                    <Rocket size={24} />
+                                </div>
+
+                                {/* Radio Circle */}
+                                <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${choice === 'new-business' ? 'border-[#494FBB]' : 'border-gray-200'}`}>
+                                    {choice === 'new-business' && <div className="w-3 h-3 rounded-full bg-[#494FBB]" />}
+                                </div>
                             </div>
 
-                            {/* Radio Circle */}
-                            <div className={`w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all ${choice === 'new-business' ? 'border-[#494FBB]' : 'border-gray-200'}`}>
-                                {choice === 'new-business' && <div className="w-4 h-4 rounded-full bg-[#494FBB]" />}
+                            {/* Text Section */}
+                            <div>
+                                <h3 className="text-lg font-bold text-[#0F172A] mb-2">Launch a New Business Venture</h3>
+                                <p className="text-gray-500 text-sm leading-relaxed">
+                                    Start fresh by establishing a new company. Ideal for entrepreneurs ready to kickstart operations.
+                                </p>
                             </div>
                         </div>
 
-                        {/* Text Section */}
-                        <div>
-                            <h3 className="text-2xl font-bold text-[#0F172A] mb-3">Launch a New Business Venture</h3>
-                            <p className="text-gray-500 leading-relaxed">
-                                Start fresh by establishing a new company. Ideal for entrepreneurs ready to kickstart their operations immediately with full licensing.
-                            </p>
+                        {/* Option 2: Reserve Name */}
+                        <div
+                            onClick={() => setChoice('reserve-name')}
+                            className={`cursor-pointer rounded-2xl border-2 p-6 h-56 flex flex-col justify-between transition-all duration-300 group relative ${choice === 'reserve-name'
+                                ? 'border-[#494FBB] shadow-lg shadow-indigo-50 ring-1 ring-[#494FBB] bg-white'
+                                : 'border-gray-100 hover:border-gray-200 hover:shadow-md bg-white'
+                                }`}
+                        >
+                            {/* Top Section */}
+                            <div className="flex justify-between items-start">
+                                <div className="w-12 h-12 rounded-xl bg-purple-50 flex items-center justify-center text-purple-600">
+                                    <Bookmark size={24} />
+                                </div>
+
+                                {/* Radio Circle */}
+                                <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${choice === 'reserve-name' ? 'border-[#494FBB]' : 'border-gray-200'}`}>
+                                    {choice === 'reserve-name' && <div className="w-3 h-3 rounded-full bg-[#494FBB]" />}
+                                </div>
+                            </div>
+
+                            {/* Text Section */}
+                            <div>
+                                <h3 className="text-lg font-bold text-[#0F172A] mb-2">Secure a Business Name Reservation</h3>
+                                <p className="text-gray-500 text-sm leading-relaxed">
+                                    Not ready to launch? Reserve your trade name now to protect your brand identity.
+                                </p>
+                            </div>
                         </div>
                     </div>
 
-                    {/* Option 2: Reserve Name */}
-                    <div
-                        onClick={() => setChoice('reserve-name')}
-                        className={`cursor-pointer rounded-3xl border-2 p-8 h-80 flex flex-col justify-between transition-all duration-300 group relative ${choice === 'reserve-name'
-                            ? 'border-[#494FBB] shadow-xl shadow-indigo-50 ring-1 ring-[#494FBB] bg-white'
-                            : 'border-gray-100 hover:border-gray-200 hover:shadow-md bg-white'
-                            }`}
-                    >
-                        {/* Top Section */}
-                        <div className="flex justify-between items-start">
-                            <div className="w-14 h-14 rounded-2xl bg-purple-50 flex items-center justify-center text-purple-600">
-                                <Bookmark size={28} />
-                            </div>
-
-                            {/* Radio Circle */}
-                            <div className={`w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all ${choice === 'reserve-name' ? 'border-[#494FBB]' : 'border-gray-200'}`}>
-                                {choice === 'reserve-name' && <div className="w-4 h-4 rounded-full bg-[#494FBB]" />}
-                            </div>
-                        </div>
-
-                        {/* Text Section */}
-                        <div>
-                            <h3 className="text-2xl font-bold text-[#0F172A] mb-3">Secure a Business Name Reservation</h3>
-                            <p className="text-gray-500 leading-relaxed">
-                                Not ready to launch? Reserve your trade name now to protect your brand identity and complete the setup later.
-                            </p>
-                        </div>
+                    {/* Bottom Actions */}
+                    <div className="mt-auto flex justify-end">
+                        <button
+                            onClick={handleStart}
+                            disabled={!choice || isLoading}
+                            className={`px-10 py-3 rounded-xl font-bold text-lg flex items-center gap-2 transition-all shadow-lg ${choice && !isLoading ? 'bg-[#494FBB] hover:bg-[#3e44a6] text-white shadow-indigo-200' : 'bg-gray-100 text-gray-400 cursor-not-allowed shadow-none'}`}
+                        >
+                            {isLoading ? (
+                                <div className="flex items-center gap-2">
+                                    <Loader2 className="animate-spin" size={20} />
+                                    <span className="animate-pulse">Analyzing...</span>
+                                </div>
+                            ) : (
+                                <>
+                                    Start <ArrowRight size={20} />
+                                </>
+                            )}
+                        </button>
                     </div>
-                </div>
 
-                {/* Bottom Actions */}
-                <div className="mt-auto flex justify-end">
-                    <button
-                        onClick={handleStart}
-                        disabled={!choice || isLoading}
-                        className={`px-12 py-3 rounded-xl font-bold text-lg flex items-center gap-2 transition-all shadow-xl ${choice && !isLoading ? 'bg-[#494FBB] hover:bg-[#3e44a6] text-white shadow-indigo-200' : 'bg-gray-100 text-gray-400 cursor-not-allowed shadow-none'}`}
-                    >
-                        {isLoading ? 'Calculating...' : 'Start'}
-                        {!isLoading && <ArrowRight size={20} />}
-                    </button>
                 </div>
-
-            </div>
+            </PageTransition>
 
             {/* Results Modal */}
             {showModal && costResult && (
@@ -167,7 +177,7 @@ function SetupChoiceContent() {
                             </div>
 
                             <button
-                                onClick={() => setShowModal(false)}
+                                onClick={() => router.push('/dashboard/cost-calculator')}
                                 className="w-full bg-[#0F172A] text-white py-3.5 rounded-xl font-bold hover:bg-gray-800 transition-colors"
                             >
                                 Close & Return

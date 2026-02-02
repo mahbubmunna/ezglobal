@@ -5,6 +5,7 @@ import { MapPin, Globe, Plane, ChevronDown, Plus, Minus, ArrowRight, Search, Che
 import { useRouter } from 'next/navigation';
 
 import DashboardLayout from '@/components/dashboard/DashboardLayout';
+import PageTransition from '@/components/PageTransition';
 
 export default function CostCalculatorPage() {
     const router = useRouter();
@@ -79,12 +80,13 @@ export default function CostCalculatorPage() {
             origin,
         });
 
+        // Small delay to allow button animation if needed, but instant is better
         router.push(`/dashboard/cost-calculator/legal-entity?${params.toString()}`);
     };
 
     return (
         <DashboardLayout>
-            <div className="max-w-5xl mx-auto py-6">
+            <PageTransition className="max-w-5xl mx-auto py-6">
 
                 {/* Single White Card Container */}
                 <div className="bg-white rounded-[2rem] p-10 shadow-sm border border-gray-100 relative">
@@ -255,7 +257,7 @@ export default function CostCalculatorPage() {
                     </div>
 
                 </div>
-            </div>
+            </PageTransition>
         </DashboardLayout>
     );
 }

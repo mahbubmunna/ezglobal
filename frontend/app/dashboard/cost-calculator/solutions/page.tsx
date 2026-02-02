@@ -1,20 +1,54 @@
 'use client';
 
-import React, { Suspense, useState } from 'react';
+import React, { Suspense, useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ArrowRight, Clock, Building, User, Users, ChevronDown, CheckCircle2, Home, Hourglass, Zap } from 'lucide-react';
 import DashboardLayout from '@/components/dashboard/DashboardLayout';
+import PageTransition from '@/components/PageTransition';
+import Loader from '@/components/Loader';
 
 function SolutionsContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const [selectedLicense, setSelectedLicense] = useState<string | null>(null);
+    const [licenseOptions, setLicenseOptions] = useState<any[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     // Get params
-    const activity = searchParams.get('activity') || 'Accounting & Bookkeeping - 6920003';
-    const partners = searchParams.get('partners') || '2';
-    const origin = searchParams.get('origin') || 'local';
-    const entityName = searchParams.get('entityName') || 'Partnership Company';
+    const activity = searchParams.get('activity');
+    const partners = searchParams.get('partners');
+    const origin = searchParams.get('origin');
+    const entity = searchParams.get('entity'); // Legal Type ID
+    const entityName = searchParams.get('entityName');
+
+    // Fetch License Options
+    useEffect(() => {
+        const fetchLicenses = async () => {
+            setIsLoading(true);
+            try {
+                const params = new URLSearchParams({
+                    partners: partners || '1',
+                    origin: origin || 'local',
+                    legalType: entity || ''
+                });
+                const res = await fetch(`/api/license-categories?${params.toString()}`);
+                if (res.ok) {
+                    const data = await res.json();
+                    setLicenseOptions(data);
+                    // Setup default selection if needed, or let user choose
+                }
+            } catch (error) {
+                console.error("Failed to fetch licenses", error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        if (entity) {
+            fetchLicenses();
+        }
+    }, [entity, partners, origin]);
+
 
     // Helper to format origin
     const getNationalities = (originId: string) => {
@@ -35,9 +69,14 @@ function SolutionsContent() {
         }
     };
 
+    // Separate recommended vs others (logic: Instant or Normal usually recommended, others niche)
+    // For now, first item is "Featured"
+    const featuredLicense = licenseOptions.length > 0 ? licenseOptions[0] : null;
+    const otherLicenses = licenseOptions.length > 1 ? licenseOptions.slice(1) : [];
+
     return (
         <DashboardLayout>
-            <div className="max-w-5xl mx-auto py-6">
+            <PageTransition className="max-w-5xl mx-auto py-6">
 
                 {/* Single White Card Container */}
                 <div className="bg-white rounded-[2rem] p-10 shadow-sm border border-gray-100 min-h-[600px] relative">
@@ -84,118 +123,128 @@ function SolutionsContent() {
                                 {partners} Partners
                             </span>
                             <span className="bg-white border border-gray-200 rounded-lg px-3 py-1 text-xs font-medium text-gray-600">
-                                {getNationalities(origin)}
+                                {getNationalities(origin || 'local')}
                             </span>
                         </div>
                     </div>
 
-                    {/* License Selection Header */}
-                    <div className="grid grid-cols-1 md:grid-cols-12 gap-4 px-6 md:px-8 mb-4 text-xs font-bold text-gray-400 uppercase tracking-wider hidden md:grid">
-                        <div className="col-span-4 pl-3">License Type</div>
-                        <div className="col-span-3 text-center">Partners</div>
-                        <div className="col-span-2 text-center">Presence</div>
-                        <div className="col-span-2 text-center">Time</div>
-                        <div className="col-span-1 text-center">Select</div>
-                    </div>
-
-                    {/* Recommended License Card */}
-                    <div
-                        onClick={() => setSelectedLicense('normal-license')}
-                        className={`rounded-3xl border-2 overflow-hidden mb-6 relative transition-all cursor-pointer ${selectedLicense === 'normal-license'
-                            ? 'border-[#494FBB] shadow-xl shadow-indigo-50 bg-white ring-1 ring-[#494FBB]'
-                            : 'border-[#494FBB]/30 hover:border-[#494FBB] bg-white'}`}
-                    >
-                        <div className="p-6 md:p-8 grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
-
-                            {/* Type */}
-                            <div className="col-span-4">
-                                <div className="flex items-center gap-3 mb-2">
-                                    <h3 className="text-xl font-bold text-[#0F172A]">Normal License</h3>
-                                    <span className="bg-green-100 text-green-700 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wide flex items-center gap-1">
-                                        <Zap size={10} fill="currentColor" /> Recommended
-                                    </span>
-                                </div>
-                                <p className="text-gray-500 text-sm mb-3">All business activities included.</p>
-                                <button className="text-[#494FBB] text-xs font-bold flex items-center gap-1 hover:underline">
-                                    View Fees Breakdown <ChevronDown size={14} />
-                                </button>
+                    {isLoading ? (
+                        <Loader text="Loading suitable licenses..." />
+                    ) : (
+                        <>
+                            {/* License Selection Header */}
+                            <div className="grid grid-cols-1 md:grid-cols-12 gap-4 px-6 md:px-8 mb-4 text-xs font-bold text-gray-400 uppercase tracking-wider hidden md:grid">
+                                <div className="col-span-4 pl-3">License Type</div>
+                                <div className="col-span-3 text-center">Partners</div>
+                                <div className="col-span-2 text-center">Presence</div>
+                                <div className="col-span-2 text-center">Time</div>
+                                <div className="col-span-1 text-center">Select</div>
                             </div>
 
-                            {/* Partners */}
-                            <div className="col-span-3 text-center flex flex-col items-center">
-                                <div className="text-[#494FBB] mb-2"><Users size={24} /></div>
-                                <div className="font-bold text-gray-900 text-sm">All Nationalities</div>
-                                <div className="text-xs text-gray-500 mt-0.5">1 to 50 partners</div>
-                            </div>
+                            {/* Recommended License Card */}
+                            {featuredLicense && (
+                                <div
+                                    onClick={() => setSelectedLicense(featuredLicense.id)}
+                                    className={`rounded-3xl border-2 overflow-hidden mb-6 relative transition-all cursor-pointer ${selectedLicense === featuredLicense.id
+                                        ? 'border-[#494FBB] shadow-xl shadow-indigo-50 bg-white ring-1 ring-[#494FBB]'
+                                        : 'border-[#494FBB]/30 hover:border-[#494FBB] bg-white'}`}
+                                >
+                                    <div className="p-6 md:p-8 grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
 
-                            {/* Presence */}
-                            <div className="col-span-2 text-center flex flex-col items-center">
-                                <div className="text-[#494FBB] mb-2"><Building size={24} /></div>
-                                <div className="font-bold text-gray-900 text-sm">Physical Office</div>
-                                <div className="text-xs text-gray-500 mt-0.5">Dubai Mainland</div>
-                            </div>
+                                        {/* Type */}
+                                        <div className="col-span-4">
+                                            <div className="flex items-center gap-3 mb-2">
+                                                <h3 className="text-xl font-bold text-[#0F172A]">{featuredLicense.valueEn}</h3>
+                                                <span className="bg-green-100 text-green-700 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wide flex items-center gap-1">
+                                                    <Zap size={10} fill="currentColor" /> Recommended
+                                                </span>
+                                            </div>
+                                            <p className="text-gray-500 text-sm mb-3">{featuredLicense.description}</p>
+                                            <button className="text-[#494FBB] text-xs font-bold flex items-center gap-1 hover:underline">
+                                                View Fees Breakdown <ChevronDown size={14} />
+                                            </button>
+                                        </div>
 
-                            {/* Time */}
-                            <div className="col-span-2 text-center flex flex-col items-center">
-                                <div className="text-[#494FBB] mb-2"><Clock size={24} /></div>
-                                <div className="font-bold text-gray-900 text-sm">Processing Time</div>
-                                <div className="text-xs text-gray-500 mt-0.5">3 working days</div>
-                            </div>
+                                        {/* Partners */}
+                                        <div className="col-span-3 text-center flex flex-col items-center">
+                                            <div className="text-[#494FBB] mb-2"><Users size={24} /></div>
+                                            <div className="font-bold text-gray-900 text-sm">{featuredLicense.residency}</div>
+                                            <div className="text-xs text-gray-500 mt-0.5">{featuredLicense.partners.min}-{featuredLicense.partners.max} partners</div>
+                                        </div>
 
-                            {/* Action (Visual Selection) */}
-                            <div className="col-span-1 flex justify-center">
-                                <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${selectedLicense === 'normal-license' ? 'border-[#494FBB] bg-[#494FBB] text-white' : 'border-gray-300'}`}>
-                                    {selectedLicense === 'normal-license' && <CheckCircle2 size={16} />}
-                                </div>
-                            </div>
+                                        {/* Presence */}
+                                        <div className="col-span-2 text-center flex flex-col items-center">
+                                            <div className="text-[#494FBB] mb-2"><Building size={24} /></div>
+                                            <div className="font-bold text-gray-900 text-sm">{featuredLicense.location}</div>
+                                        </div>
 
-                        </div>
-                    </div>
+                                        {/* Time */}
+                                        <div className="col-span-2 text-center flex flex-col items-center">
+                                            <div className="text-[#494FBB] mb-2"><Clock size={24} /></div>
+                                            <div className="font-bold text-gray-900 text-sm">Processing Time</div>
+                                            <div className="text-xs text-gray-500 mt-0.5">{featuredLicense.processingTime}</div>
+                                        </div>
 
+                                        {/* Action (Visual Selection) */}
+                                        <div className="col-span-1 flex justify-center">
+                                            <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${selectedLicense === featuredLicense.id ? 'border-[#494FBB] bg-[#494FBB] text-white' : 'border-gray-300'}`}>
+                                                {selectedLicense === featuredLicense.id && <CheckCircle2 size={16} />}
+                                            </div>
+                                        </div>
 
-                    {/* Other Categories (Accordion style) */}
-                    <div className="border border-gray-200 rounded-3xl overflow-hidden divide-y divide-gray-100">
-                        {[
-                            { id: 'global-trader', name: 'Global Trader License', desc: 'Restricted Activities', userType: 'UAE & GCC Only', typeIcon: User, location: 'Home Based', time: '1 working day' },
-                            { id: 'sme-license', name: 'SME License', desc: 'Restricted Activities', userType: 'UAE Nationals', typeIcon: Users, location: 'Dubai Mainland', time: '1 working day' },
-                            { id: 'intelaq', name: 'Intelaq License', desc: 'Home Based Business', userType: 'UAE or GCC', typeIcon: User, location: 'Home Based', time: '3 working days' },
-                        ].map((lic) => (
-                            <div
-                                key={lic.id}
-                                onClick={() => setSelectedLicense(lic.id)}
-                                className={`px-6 md:px-8 py-5 grid grid-cols-1 md:grid-cols-12 gap-6 items-center hover:bg-gray-50 transition-colors cursor-pointer group ${selectedLicense === lic.id ? 'bg-indigo-50/10' : ''}`}
-                            >
-                                <div className="col-span-4">
-                                    <h4 className={`font-bold transition-colors ${selectedLicense === lic.id ? 'text-[#494FBB]' : 'text-gray-900'}`}>{lic.name}</h4>
-                                    <p className="text-xs text-gray-400 mt-1">{lic.desc}</p>
-                                </div>
-
-                                <div className="col-span-3 text-center flex flex-col items-center opacity-60">
-                                    <div className="text-gray-400 mb-1"><lic.typeIcon size={18} /></div>
-                                    <div className="font-medium text-gray-700 text-xs">{lic.userType}</div>
-                                </div>
-
-                                <div className="col-span-2 text-center flex flex-col items-center opacity-60">
-                                    <div className="text-gray-400 mb-1"><Home size={18} /></div>
-                                    <div className="font-medium text-gray-700 text-xs">{lic.location}</div>
-                                </div>
-
-                                <div className="col-span-2 text-center flex flex-col items-center opacity-60">
-                                    <div className="text-gray-400 mb-1"><Hourglass size={18} /></div>
-                                    <div className="font-medium text-gray-700 text-xs">{lic.time}</div>
-                                </div>
-
-                                <div className="col-span-1 flex justify-center">
-                                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${selectedLicense === lic.id ? 'border-[#494FBB] bg-[#494FBB] text-white' : 'border-gray-200'}`}>
-                                        {selectedLicense === lic.id && <CheckCircle2 size={12} />}
                                     </div>
                                 </div>
-                            </div>
-                        ))}
-                    </div>
+                            )}
+
+                            {/* Other Categories (Accordion style) */}
+                            {otherLicenses.length > 0 && (
+                                <div className="border border-gray-200 rounded-3xl overflow-hidden divide-y divide-gray-100 block">
+                                    {otherLicenses.map((lic) => (
+                                        <div
+                                            key={lic.id}
+                                            onClick={() => setSelectedLicense(lic.id)}
+                                            className={`px-6 md:px-8 py-5 grid grid-cols-1 md:grid-cols-12 gap-6 items-center hover:bg-gray-50 transition-colors cursor-pointer group ${selectedLicense === lic.id ? 'bg-indigo-50/10' : ''}`}
+                                        >
+                                            <div className="col-span-4">
+                                                <h4 className={`font-bold transition-colors ${selectedLicense === lic.id ? 'text-[#494FBB]' : 'text-gray-900'}`}>{lic.valueEn}</h4>
+                                                <p className="text-xs text-gray-400 mt-1">{lic.description}</p>
+                                            </div>
+
+                                            <div className="col-span-3 text-center flex flex-col items-center opacity-60">
+                                                <div className="text-gray-400 mb-1"><User size={18} /></div>
+                                                <div className="font-medium text-gray-700 text-xs">{lic.residency}</div>
+                                            </div>
+
+                                            <div className="col-span-2 text-center flex flex-col items-center opacity-60">
+                                                <div className="text-gray-400 mb-1"><Home size={18} /></div>
+                                                <div className="font-medium text-gray-700 text-xs">{lic.location}</div>
+                                            </div>
+
+                                            <div className="col-span-2 text-center flex flex-col items-center opacity-60">
+                                                <div className="text-gray-400 mb-1"><Hourglass size={18} /></div>
+                                                <div className="font-medium text-gray-700 text-xs">{lic.processingTime}</div>
+                                            </div>
+
+                                            <div className="col-span-1 flex justify-center">
+                                                <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-all ${selectedLicense === lic.id ? 'border-[#494FBB] bg-[#494FBB] text-white' : 'border-gray-200'}`}>
+                                                    {selectedLicense === lic.id && <CheckCircle2 size={12} />}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+
+                            {licenseOptions.length === 0 && (
+                                <div className="text-center py-10 bg-gray-50 rounded-2xl border border-dashed border-gray-300">
+                                    <p className="text-gray-500">No matching licenses found for these criteria.</p>
+                                </div>
+                            )}
+                        </>
+                    )}
 
                 </div>
-            </div>
+            </PageTransition>
         </DashboardLayout>
     );
 }
@@ -203,7 +252,7 @@ function SolutionsContent() {
 export default function SolutionsPage() {
     return (
         <DashboardLayout>
-            <Suspense fallback={<div className="p-8 text-center text-gray-500">Loading recommendations...</div>}>
+            <Suspense fallback={<Loader text="Loading recommendations..." />}>
                 <SolutionsContent />
             </Suspense>
         </DashboardLayout>

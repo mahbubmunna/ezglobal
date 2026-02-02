@@ -1,0 +1,111 @@
+[
+    {
+        "id": "ded-trader",
+        "code": "91",
+        "valueEn": "DED Trader",
+        "valueAr": "رخصة تاجر",
+        "partners": {
+            "min": 1,
+            "max": 1
+        },
+        "residency": "Residents Only",
+        "location": "Home Based (Dubai)",
+        "allowedLegalTypes": [
+            "sole-establishment"
+        ],
+        "allowedNationalities": [
+            "uae",
+            "gcc",
+            "expat"
+        ],
+        "description": "For freelancers and home-based businesses. Available to Dubai residents.",
+        "processingTime": "1 working day",
+        "baseFee": 1070
+    },
+    {
+        "id": "intelaq",
+        "code": "84",
+        "valueEn": "Intelaq License",
+        "valueAr": "رخصة انطلاق",
+        "partners": {
+            "min": 1,
+            "max": 1
+        },
+        "residency": "Residents Only",
+        "location": "Home Based (Dubai)",
+        "allowedLegalTypes": [
+            "sole-establishment"
+        ],
+        "allowedNationalities": [
+            "uae",
+            "gcc"
+        ],
+        "description": "Home-based business license strictly for UAE and GCC nationals residing in Dubai.",
+        "processingTime": "3 working days",
+        "baseFee": 1070
+    },
+    {
+        "id": "instant-license",
+        "code": "200",
+        "valueEn": "Instant License",
+        "valueAr": "رخصة فورية",
+        "partners": {
+            "min": 1,
+            "max": 50
+        },
+        "residency": "All",
+        "location": "Virtual Location (1st Year)",
+        "allowedLegalTypes": [
+            "all"
+        ],
+        "allowedNationalities": [
+            "all"
+        ],
+        "description": "Issued instantly without MOA or lease for the first year. Virtual location allowed.",
+        "processingTime": "Instantly",
+        "baseFee": 2000
+    },
+    {
+        "id": "sme-license",
+        "code": "82",
+        "valueEn": "SME License",
+        "valueAr": "رخصة مؤسسة محمد بن راشد",
+        "partners": {
+            "min": 1,
+            "max": 50
+        },
+        "residency": "Residents Only",
+        "location": "Physical Location",
+        "allowedLegalTypes": [
+            "all"
+        ],
+        "allowedNationalities": [
+            "uae",
+            "gcc"
+        ],
+        "description": "100% owned by UAE/GCC nationals. 5-year fee exemption.",
+        "processingTime": "1 working day",
+        "baseFee": 1000
+    },
+    {
+        "id": "normal-license",
+        "code": "83",
+        "valueEn": "Normal License",
+        "valueAr": "رخصة تجارية",
+        "partners": {
+            "min": 1,
+            "max": 50
+        },
+        "residency": "All",
+        "location": "Physical Location",
+        "allowedLegalTypes": [
+            "all"
+        ],
+        "allowedNationalities": [
+            "all"
+        ],
+        "description": "Standard trade license for all activities. Requires physical office space.",
+        "processingTime": "3 working days",
+        "baseFee": 6000
+    }
+]
