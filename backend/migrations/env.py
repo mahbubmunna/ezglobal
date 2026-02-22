@@ -16,25 +16,8 @@ load_dotenv()
 # access to the values within the .ini file in use.
 config = context.config
 
-# Set sqlalchemy.url from environment variable
-# Use postgresql+asyncpg scheme
-database_url = os.getenv("ezglobal_DATABASE_URL")
-if not database_url:
-    database_url = os.getenv("ezglobal_POSTGRES_URL")
-if not database_url:
-    database_url = os.getenv("DATABASE_URL")
-if not database_url:
-    database_url = os.getenv("POSTGRES_URL")
-
-if database_url:
-    url = database_url.replace("postgresql://", "postgresql+asyncpg://").replace("?sslmode=require", "").replace("&sslmode=require", "")
-else:
-    user = os.getenv("POSTGRES_USER", "postgres")
-    password = os.getenv("POSTGRES_PASSWORD", "password")
-    server = os.getenv("POSTGRES_SERVER", "localhost")
-    port = os.getenv("POSTGRES_PORT", "5432")
-    db = os.getenv("POSTGRES_DB", "app")
-    url = f"postgresql+asyncpg://{user}:{password}@{server}:{port}/{db}"
+from app.core.config import settings
+url = settings.SQLALCHEMY_DATABASE_URI
 
 config.set_main_option("sqlalchemy.url", url)
 
@@ -103,11 +86,7 @@ async def run_async_migrations() -> None:
         config.get_section(config.config_ini_section, {}),
         prefix="sqlalchemy.",
         poolclass=pool.NullPool,
-<<<<<<< HEAD
-        connect_args={"ssl": "require"},
-=======
         connect_args=connect_args,
->>>>>>> main
     )
 
     async with connectable.connect() as connection:
