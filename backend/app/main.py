@@ -19,6 +19,8 @@ def root():
     return {"message": "Welcome to Ez global API"}
 
 from app.modules.auth.routes import router as auth_router
+from app.modules.applications.routes import router as applications_router
 
 app.include_router(auth_router, prefix=f"{settings.API_V1_STR}/auth", tags=["auth"])
+app.include_router(applications_router, prefix=f"{settings.API_V1_STR}/applications", tags=["applications"])
 

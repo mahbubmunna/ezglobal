@@ -1,10 +1,10 @@
 # Python
-backend/venv/
-backend/__pycache__/
-backend/*.py[cod]
-backend/*$py.class
-backend/.env
-backend/.pytest_cache/
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+.pytest_cache/
 
 # Node
 frontend/node_modules/

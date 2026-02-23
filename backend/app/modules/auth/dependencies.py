@@ -7,18 +7,15 @@ from app.db.session import get_db
 from app.modules.users.service import get_user_by_email
 from app.db.models.users import User
 
-async def get_token_from_cookie(request: Request) -> str:
+async def get_token(request: Request) -> str:
+    # First check authorization header
+    auth_header = request.headers.get("Authorization")
+    if auth_header and auth_header.startswith("Bearer "):
+        return auth_header.split(" ")[1]
+
+    # Fallback to checking cookies
     token = request.cookies.get("access_token")
     if not token:
-        # Fallback to header if needed or just fail
-        # But we format cookie as "Bearer <token>" in set_cookie?
-        # In routes: response.set_cookie(key="access_token", value=f"Bearer {access_token}", ...)
-        # So we need to strip "Bearer " prefix if present.
-        # But wait, usually cookie is just the token.
-        # I set it as f"Bearer {access_token}". 
-        # So I need to parse it or just set raw token.
-        # It's cleaner to set raw token in cookie.
-        # Let's check routes.py.
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Not authenticated",
@@ -28,7 +25,7 @@ async def get_token_from_cookie(request: Request) -> str:
         token = token.split(" ")[1]
     return token
 
-async def get_current_user(token: Annotated[str, Depends(get_token_from_cookie)], session: Annotated[AsyncSession, Depends(get_db)]) -> User:
+async def get_current_user(token: Annotated[str, Depends(get_token)], session: Annotated[AsyncSession, Depends(get_db)]) -> User:
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -39,11 +36,13 @@ async def get_current_user(token: Annotated[str, Depends(get_token_from_cookie)]
         email: str = payload.get("sub")
         if email is None:
             raise credentials_exception
-    except JWTError:
+    except JWTError as e:
+        print(f"JWT Validation Error: {e}")
         raise credentials_exception
     
     user = await get_user_by_email(session, email)
     if user is None:
+        print(f"User with email {email} not found in database.")
         raise credentials_exception
     return user
 

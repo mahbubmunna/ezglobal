@@ -109,6 +109,9 @@ export default function BusinessSetupService() {
                         <span className="text-sm font-medium text-gray-400"> / 12</span>
                     </div>
                     <div className="flex gap-2">
+                        <Link href="/dashboard/applications/new" className="bg-[#10b981] hover:bg-[#059669] text-white px-6 py-2 rounded-xl font-bold flex items-center transition-all shadow-lg shadow-[#10b981]/20">
+                            Apply Now
+                        </Link>
                         <button
                             onClick={prevStep}
                             disabled={currentStep === 1}

@@ -2,3 +2,4 @@
 # imported by Alembic
 from app.db.models.users import User
 from app.db.models.otp import OTP
+from app.db.models.applications import Application, Stakeholder, Document
