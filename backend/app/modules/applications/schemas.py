@@ -81,6 +81,7 @@ class ApplicationResponse(ApplicationBase):
     user_id: int
     created_at: datetime
     updated_at: datetime
+    ai_review_notes: Optional[str] = None
     stakeholders: List[StakeholderResponse] = []
     documents: List[DocumentResponse] = []
 

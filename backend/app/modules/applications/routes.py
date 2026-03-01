@@ -37,6 +37,36 @@ async def create_application(
     response_data["documents"] = []
     return response_data
 
+@router.get("/user", response_model=List[schemas.ApplicationResponse])
+async def get_user_applications(
+    current_user: Annotated[User, Depends(get_current_active_user)],
+    session: Annotated[AsyncSession, Depends(get_db)]
+):
+    # Fetch applications for user
+    result = await session.execute(
+        select(Application)
+        .where(Application.user_id == current_user.id)
+        .order_by(Application.created_at.desc())
+    )
+    db_apps = result.scalars().all()
+    
+    response_list = []
+    for app in db_apps:
+        # Fetch stakeholders for this app
+        st_result = await session.execute(select(Stakeholder).where(Stakeholder.application_id == app.id))
+        stakeholders = st_result.scalars().all()
+        
+        # Fetch documents for this app
+        doc_result = await session.execute(select(Document).where(Document.application_id == app.id))
+        documents = doc_result.scalars().all()
+        
+        app_data = app.model_dump()
+        app_data["stakeholders"] = [st.model_dump() for st in stakeholders]
+        app_data["documents"] = [doc.model_dump() for doc in documents]
+        response_list.append(app_data)
+        
+    return response_list
+
 @router.get("/{app_id}", response_model=schemas.ApplicationResponse)
 async def get_application(
     app_id: int,

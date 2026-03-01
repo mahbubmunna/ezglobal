@@ -16,6 +16,7 @@ class ApplicationBase(SQLModel):
     ejari_number: Optional[str] = None
     package_type: Optional[str] = None
     status: str = Field(default="Draft")
+    ai_review_notes: Optional[str] = None
 
 class Application(ApplicationBase, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)

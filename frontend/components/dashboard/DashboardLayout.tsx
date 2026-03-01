@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { LayoutGrid, Home, Settings, LogOut, Search, FileText, BarChart2, Sparkles, Voicemail, Speaker, SpeakerIcon, Mic } from 'lucide-react';
 import { useAuthStore } from '@/store/authStore';
 
@@ -13,8 +13,27 @@ interface DashboardLayoutProps {
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
     const { user, logout } = useAuthStore();
     const pathname = usePathname();
+    const router = useRouter();
 
-    const SIDEBAR_ITEMS = [
+    const handleLogout = async () => {
+        try {
+            await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1'}/auth/logout`, {
+                method: 'POST',
+                credentials: 'include'
+            });
+        } catch (error) {
+            console.error('Logout failed', error);
+        } finally {
+            logout();
+            router.push('/login');
+        }
+    };
+
+    const SIDEBAR_ITEMS = user?.role === 'admin' ? [
+        { icon: LayoutGrid, label: 'Review Queue', href: '/dashboard/admin' },
+        { icon: FileText, label: 'All Applications', href: '/dashboard/admin/all' },
+        { icon: Settings, label: 'Settings', href: '/dashboard/settings' },
+    ] : [
         { icon: Home, label: 'Home', href: '/dashboard' },
         { icon: LayoutGrid, label: 'Business Setup', href: '/dashboard/setup' },
         { icon: BarChart2, label: 'Cost Calculator', href: '/dashboard/cost-calculator' },
@@ -70,7 +89,10 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
                 {/* Bottom Actions */}
                 <div className="flex flex-col gap-4 w-full px-3 py-6">
-                    <button className="h-12 rounded-xl flex items-center px-3.5 text-gray-400 hover:text-white hover:bg-white/5 transition-colors overflow-hidden whitespace-nowrap">
+                    <button
+                        onClick={handleLogout}
+                        className="h-12 rounded-xl flex items-center px-3.5 text-gray-400 hover:text-white hover:bg-white/5 transition-colors overflow-hidden whitespace-nowrap"
+                    >
                         <div className="flex-none">
                             <LogOut size={22} />
                         </div>
@@ -98,8 +120,13 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
                     {/* Right: Profile */}
                     <div className="flex items-center gap-4">
-                        <div className="flex flex-col text-right">
-                            <span className="text-sm font-bold text-[#0F172A]">{user?.first_name} {user?.last_name || 'Hassan'}</span>
+                        <div className="flex flex-col text-right justify-center">
+                            <div className="flex items-center gap-2 justify-end">
+                                <span className="text-sm font-bold text-[#0F172A]">{user?.first_name} {user?.last_name || ''}</span>
+                                {user?.role === 'admin' && (
+                                    <span className="text-[10px] bg-indigo-100 text-indigo-700 px-1.5 py-0.5 rounded flex-none font-bold uppercase tracking-wider">Admin</span>
+                                )}
+                            </div>
                         </div>
                         <div className="w-10 h-10 rounded-full p-0.5 bg-gray-100 border border-gray-200">
                             <img src={`https://ui-avatars.com/api/?name=${user?.first_name}+${user?.last_name}&background=random`} alt="Profile" className="w-full h-full rounded-full object-cover" />

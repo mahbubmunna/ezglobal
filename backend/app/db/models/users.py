@@ -8,6 +8,7 @@ class UserBase(SQLModel):
     middle_name: Optional[str] = None
     last_name: str
     is_verified: bool = False
+    role: str = Field(default="user")
 
 class User(UserBase, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
