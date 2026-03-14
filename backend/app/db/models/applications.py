@@ -15,8 +15,9 @@ class ApplicationBase(SQLModel):
     wait_for_ejari: Optional[bool] = None
     ejari_number: Optional[str] = None
     package_type: Optional[str] = None
-    status: str = Field(default="Draft")
+    status: str = Field(default="draft") # draft, submitted, ai_reviewing, needs_fix, ready
     ai_review_notes: Optional[str] = None
+    ai_review_summary: Optional[dict] = Field(default=None, sa_column=Column(JSON))
 
 class Application(ApplicationBase, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
@@ -51,6 +52,10 @@ class DocumentBase(SQLModel):
     stakeholder_id: Optional[int] = Field(default=None, foreign_key="stakeholder.id")
     document_type: str
     file_path: str
+    review_status: str = Field(default="uploaded") # uploaded, processed, reviewed, needs_fix
+    raw_text: Optional[str] = None
+    document_type_detected: Optional[str] = None
+    processed_at: Optional[datetime] = None
 
 class Document(DocumentBase, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)

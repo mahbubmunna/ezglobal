@@ -82,6 +82,7 @@ class ApplicationResponse(ApplicationBase):
     created_at: datetime
     updated_at: datetime
     ai_review_notes: Optional[str] = None
+    ai_review_summary: Optional[dict] = None
     stakeholders: List[StakeholderResponse] = []
     documents: List[DocumentResponse] = []
 

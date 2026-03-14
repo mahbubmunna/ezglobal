@@ -1,6 +1,7 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 interface TrackerStatus {
     label: string;
@@ -22,10 +23,34 @@ interface ApplicationTrackerCardProps {
 }
 
 export default function ApplicationTrackerCard({ application, onClick }: ApplicationTrackerCardProps) {
+    const router = useRouter();
+    const [isExpanded, setIsExpanded] = useState(false);
+    const [isReviewing, setIsReviewing] = useState(false);
+
+    const triggerAIReview = async (e: React.MouseEvent) => {
+        e.stopPropagation();
+        setIsReviewing(true);
+        try {
+            const url = `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1'}/applications/${application.id}/review`;
+            const res = await fetch(url, { method: 'POST', credentials: 'include' });
+            if (res.ok) {
+                // Refresh payload by reloading or firing an event
+                window.location.reload();
+            } else {
+                alert("Failed to start AI Review");
+            }
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setIsReviewing(false);
+        }
+    };
+
     const statusIdx = useMemo(() => {
-        if (application.status === 'Draft') return 0;
-        if (application.status === 'Submitted') return 1;
-        if (application.status === 'AI_Review_Completed') return 2;
+        if (application.status === 'Draft' || application.status === 'draft') return 0;
+        if (application.status === 'Submitted' || application.status === 'submitted') return 1;
+        if (application.status === 'ai_reviewing') return 1;
+        if (application.status === 'ready' || application.status === 'AI_Review_Completed') return 2;
         if (application.status === 'Human_Review_Completed') return 3;
         if (application.status === 'Processing') return 4;
         if (application.status === 'Approved') return 5;
@@ -33,8 +58,8 @@ export default function ApplicationTrackerCard({ application, onClick }: Applica
         return 0;
     }, [application.status]);
 
-    const isActionRequired = application.status === 'Action_Required';
-    const isApproved = application.status === 'Approved';
+    const isActionRequired = application.status === 'Action_Required' || application.status === 'needs_fix';
+    const isApproved = application.status === 'Approved' || application.status === 'approved';
 
     const renderProgressLine = (index: number) => {
         if (index === 4) return null; // last item has no line
@@ -55,9 +80,21 @@ export default function ApplicationTrackerCard({ application, onClick }: Applica
         ? application.free_zone_name
         : 'Mainland';
 
+    const handleCardClick = () => {
+        if (onClick) {
+            onClick();
+            return;
+        }
+        if (application.status === 'Draft' || application.status === 'draft') {
+            router.push(`/dashboard/applications/new?appId=${application.id}&step=1`);
+        } else {
+            setIsExpanded(!isExpanded);
+        }
+    };
+
     return (
         <div
-            onClick={onClick}
+            onClick={handleCardClick}
             className={`w-full group cursor-pointer overflow-hidden rounded-3xl bg-white border transition-all duration-300 shadow-sm hover:shadow-xl ${isActionRequired ? 'border-red-200 hover:border-red-300' : 'border-gray-100 hover:border-indigo-100'}`}
         >
             <div className={`p-6 ${isActionRequired ? 'bg-red-50/30' : 'bg-gray-50/30'}`}>
@@ -144,23 +181,92 @@ export default function ApplicationTrackerCard({ application, onClick }: Applica
                             )}
                         </>
                     ) : (
-                        <div className={`p-4 rounded-xl border flex items-center gap-4 shadow-sm ${isApproved ? 'bg-green-50 border-green-100' : 'bg-red-50 border-red-100'}`}>
-                            <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-xl ${isApproved ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}`}>
-                                {isApproved ? '✓' : '!'}
-                            </div>
-                            <div>
-                                <div className={`font-bold text-sm ${isApproved ? 'text-green-900' : 'text-red-900'}`}>
-                                    {isApproved ? 'Application Approved!' : 'Action Required from You'}
+                        <div className={`p-4 rounded-xl border flex flex-col gap-4 shadow-sm ${isApproved ? 'bg-green-50 border-green-100' : 'bg-red-50 border-red-100'}`}>
+                            <div className="flex items-center gap-4">
+                                <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-xl ${isApproved ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}`}>
+                                    {isApproved ? '✓' : '!'}
                                 </div>
-                                <div className={`text-sm mt-0.5 ${isApproved ? 'text-green-700' : 'text-red-700'}`}>
-                                    {isApproved
-                                        ? 'Your business license has been officially issued and attached securely.'
-                                        : 'Our agents have flagged missing or incomplete details in your submission.'}
+                                <div>
+                                    <div className={`font-bold text-sm ${isApproved ? 'text-green-900' : 'text-red-900'}`}>
+                                        {isApproved ? 'Application Approved!' : application.status === 'needs_fix' ? 'AI Review Identified Issues' : 'Action Required from You'}
+                                    </div>
+                                    <div className={`text-sm mt-0.5 ${isApproved ? 'text-green-700' : 'text-red-700'}`}>
+                                        {isApproved
+                                            ? 'Your business license has been officially issued and attached securely.'
+                                            : 'Please click to view the automated feedback and fix the missing or incorrect documents.'}
+                                    </div>
                                 </div>
                             </div>
+
+                            {/* Expandable AI Feedback Panel */}
+                            {application.status === 'needs_fix' && isExpanded && application.ai_review_summary && (
+                                <div className="mt-4 border-t border-red-100 pt-4 cursor-default" onClick={e => e.stopPropagation()}>
+                                    <h4 className="font-bold text-red-900 mb-3 text-sm uppercase tracking-wider">AI Review Summary</h4>
+
+                                    {application.ai_review_summary.missing_documents?.length > 0 && (
+                                        <div className="mb-4">
+                                            <div className="font-bold text-sm text-red-800 mb-2">Missing Documents:</div>
+                                            <ul className="list-disc pl-5 text-sm text-red-700 space-y-1">
+                                                {application.ai_review_summary.missing_documents.map((doc: string, i: number) => (
+                                                    <li key={i}>{doc}</li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
+
+                                    {application.ai_review_summary.document_issues?.length > 0 && (
+                                        <div className="mb-4">
+                                            <div className="font-bold text-sm text-red-800 mb-2">Detected File Issues:</div>
+                                            <div className="space-y-3">
+                                                {application.ai_review_summary.document_issues.map((issue: any, i: number) => (
+                                                    <div key={i} className="bg-white p-3 rounded-lg border border-red-100">
+                                                        <span className="font-bold text-xs bg-red-100 text-red-800 px-2 py-1 rounded inline-block mb-1">{issue.document_type}</span>
+                                                        <div className="text-sm font-medium text-red-900 mt-1">{issue.issue}</div>
+                                                        <div className="text-sm text-red-700 mt-1 flex gap-1 items-start">
+                                                            <span className="font-bold">Recommendation:</span>
+                                                            {issue.recommendation}
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {application.ai_review_summary.general_recommendations?.length > 0 && (
+                                        <div className="mb-4">
+                                            <div className="font-bold text-sm text-red-800 mb-2">General Recommendations:</div>
+                                            <ul className="list-disc pl-5 text-sm text-red-700 space-y-1">
+                                                {application.ai_review_summary.general_recommendations.map((rec: string, i: number) => (
+                                                    <li key={i}>{rec}</li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
+
+                                    <button
+                                        onClick={(e) => { e.stopPropagation(); router.push(`/dashboard/applications/new?appId=${application.id}&step=5`); }}
+                                        className="mt-2 text-white bg-red-600 hover:bg-red-700 px-6 py-2 rounded-lg text-sm font-bold shadow-sm transition-colors"
+                                    >
+                                        Fix & Resubmit
+                                    </button>
+                                </div>
+                            )}
                         </div>
                     )}
                 </div>
+
+                {/* Developer debug action to test the pipeline */}
+                {(!isActionRequired && !isApproved) && (
+                    <div className="mt-4 pt-4 border-t border-gray-100 flex justify-end">
+                        <button
+                            disabled={isReviewing}
+                            onClick={triggerAIReview}
+                            className="text-indigo-600 hover:bg-indigo-50 px-4 py-2 rounded-lg text-xs font-bold border border-indigo-100 transition-colors disabled:opacity-50"
+                        >
+                            {isReviewing ? 'Running Engine...' : 'Run AI Validation Simulator'}
+                        </button>
+                    </div>
+                )}
             </div>
         </div>
     );

@@ -69,6 +69,9 @@ interface ApplicationStore {
 
     addDocument: (doc: DocumentData) => void;
     resetState: () => void;
+
+    // Hydration
+    hydrateState: (data: any) => void;
 }
 
 const defaultCompanyBasics: CompanyBasics = {
@@ -125,5 +128,26 @@ export const useApplicationStore = create<ApplicationStore>((set) => ({
         stakeholders: [],
         location: defaultLocation,
         documents: []
+    }),
+
+    hydrateState: (data: any) => set({
+        applicationId: data.id,
+        companyBasics: {
+            legal_type: data.legal_type || '',
+            license_type: data.license_type || '',
+            trade_name_1: data.trade_name_1 || '',
+            trade_name_2: data.trade_name_2 || '',
+            trade_name_3: data.trade_name_3 || '',
+            activities: data.activities || [],
+            jurisdiction: data.jurisdiction || 'Mainland',
+            free_zone_name: data.free_zone_name || ''
+        },
+        stakeholders: data.stakeholders || [],
+        location: {
+            wait_for_ejari: data.wait_for_ejari || false,
+            ejari_number: data.ejari_number || '',
+            package_type: data.package_type || ''
+        },
+        documents: data.documents || []
     })
 }));

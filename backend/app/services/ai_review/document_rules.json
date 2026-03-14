@@ -1,0 +1,60 @@
+{
+    "Passport Copy": {
+        "required": true,
+        "description": "Clear copy of the stakeholder's passport.",
+        "keywords": [
+            "passport",
+            "nationality",
+            "identity",
+            "date of birth",
+            "mrz"
+        ]
+    },
+    "Live Photo Verification": {
+        "required": true,
+        "description": "Live selfie photo to verify identity.",
+        "keywords": [
+            "face",
+            "selfie",
+            "photo",
+            "kyc",
+            "verification"
+        ]
+    },
+    "Proof of Address": {
+        "required": true,
+        "description": "Recent utility bill or statement showing the home address.",
+        "keywords": [
+            "bill",
+            "statement",
+            "address",
+            "utility",
+            "invoice",
+            "bank"
+        ]
+    },
+    "Trade Name Reservation": {
+        "required": false,
+        "description": "Mainland trade name certificate.",
+        "keywords": [
+            "trade",
+            "name",
+            "reservation",
+            "ded",
+            "det",
+            "certificate"
+        ]
+    },
+    "Business Plan": {
+        "required": false,
+        "description": "Detailed business activity document for Free Zone.",
+        "keywords": [
+            "business",
+            "plan",
+            "activities",
+            "financials",
+            "proposal",
+            "executive"
+        ]
+    }
+}
